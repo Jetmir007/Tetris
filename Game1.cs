@@ -8,6 +8,9 @@ public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+    Texture2D pixel;
+    public Block1[] blocks = new Block1[7];
+
 
     public Game1()
     {
@@ -25,6 +28,7 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+        pixel = Content.Load<Texture2D>("pixel");
 
         // TODO: use this.Content to load your game content here
     }
