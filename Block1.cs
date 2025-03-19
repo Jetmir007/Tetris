@@ -16,15 +16,9 @@ namespace Tetris
         }
 
         public Block1(Texture2D texture){
-            this.texture = texture;
-            hitbox = new Rectangle(300, -20, 36, 36);
+            
         }
 
-        public void Update(){
-            position.Y += 5;
-
-            hitbox.Location = position.ToPoint();
-        }
 
         public void Draw(SpriteBatch spriteBatch){
             spriteBatch.Draw(texture, hitbox, Microsoft.Xna.Framework.Color.Yellow);
