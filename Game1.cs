@@ -9,7 +9,7 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     Texture2D pixel;
-    public Block1[] blocks = new Block1[7];
+    private Block block;
 
 
     public Game1()
@@ -29,6 +29,7 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         pixel = Content.Load<Texture2D>("pixel");
+        block = new Block(pixel);
 
         // TODO: use this.Content to load your game content here
     }
@@ -46,6 +47,10 @@ public class Game1 : Game
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
+
+        _spriteBatch.Begin();
+        block.Draw(_spriteBatch);
+        _spriteBatch.End();
 
         // TODO: Add your drawing code here
 
