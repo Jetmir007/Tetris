@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -7,20 +8,37 @@ namespace Tetris
     {
         private Texture2D texture;
         private Rectangle hitbox;
-        bool[,] tiles = new bool[4, 4];
+        private bool[,] tiles;
 
-        public void True(){
-            tiles[0, 0] = true;
-            tiles[2,3] = true;
+        public enum BlockType{O, I, S, Z, L, J, T}
+
+        public bool[,] BlockShape(BlockType blockType)
+        {
+            return blockType switch
+            {
+                BlockType.O => new bool[,]
+                {
+                    {true, true, false, false},
+                    {true, true, false, false},
+                    {false, false, false, false},
+                    {false, false, false, false}
+                },
+                BlockType.I => new bool[,]
+                {
+                    {true, false, false, false},
+                    {true, false, false, false},
+                    {true, false, false, false},
+                    {true, false, false, false}
+                },
+            }
         }
 
-        public Block(Texture2D texture){
+        public Block(Texture2D texture, BlockType blockType){
             this.texture = texture;
             hitbox = new Rectangle(50, 50, 20, 20);
         }
 
         public void Draw(SpriteBatch spriteBatch){
-            True();
             for (int i = 0; i < 4; i++)
             {
                 for (int j = 0; j < 4; j++)
