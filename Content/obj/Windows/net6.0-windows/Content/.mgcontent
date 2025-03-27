@@ -4,7 +4,7 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/Admin/Documents/GitHub/Tetris/Content/pixel.png</File>
+    <File>C:/Github/Tetris/Content/pixel.png</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />

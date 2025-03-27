@@ -29,7 +29,7 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         pixel = Content.Load<Texture2D>("pixel");
-        block = new Block(pixel);
+        block = new Block(pixel, Block.BlockType.O);
 
         // TODO: use this.Content to load your game content here
     }

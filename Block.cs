@@ -30,12 +30,47 @@ namespace Tetris
                     {true, false, false, false},
                     {true, false, false, false}
                 },
-            }
+                BlockType.S => new bool[,]
+                {
+                    {false, true, true, false},
+                    {true, true, false, false},
+                    {false, false, false, false},
+                    {false, false, false, false}
+                },
+                BlockType.Z => new bool[,]
+                {
+                    {true, true, false, false},
+                    {false, true, true, false},
+                    {false, false, false, false},
+                    {false, false, false, false}
+                },
+                BlockType.L => new bool[,]
+                {
+                    {true, false, false, false},
+                    {true, false, false, false},
+                    {true, true, false, false},
+                    {false, false, false, false}
+                },
+                BlockType.J => new bool[,]
+                {
+                    {false, true, false, false},
+                    {false, true, false, false},
+                    {true, true, false, false},
+                    {false, false, false, false}
+                },
+                BlockType.T => new bool[,]
+                {
+                    {true, true, true, false},
+                    {false, true, false, false},
+                    {false, false, false, false},
+                    {false, false, false, false}
+                }
+            };
         }
 
         public Block(Texture2D texture, BlockType blockType){
             this.texture = texture;
-            hitbox = new Rectangle(50, 50, 20, 20);
+            tiles = BlockShape(blockType);
         }
 
         public void Draw(SpriteBatch spriteBatch){
