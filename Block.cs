@@ -7,7 +7,6 @@ namespace Tetris
     public class Block
     {
         private Texture2D texture;
-        private Rectangle hitbox;
         private bool[,] tiles;
 
         public enum BlockType{O, I, S, Z, L, J, T}
