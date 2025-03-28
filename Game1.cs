@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SharpDX.Direct3D9;
 
 namespace Tetris;
 
@@ -9,8 +10,9 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     Texture2D pixel;
-    private Block block;
-
+    private BlockType[] blockTypes = {BlockType.O, BlockType.I, BlockType.S, BlockType.Z, BlockType.L, BlockType.J, BlockType.T};
+    private Block oldBlock;
+    private int oldIndex = 4;
 
     public Game1()
     {
@@ -29,7 +31,7 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         pixel = Content.Load<Texture2D>("pixel");
-        block = new Block(pixel, Block.BlockType.O);
+        oldBlock = new Block(pixel, blockTypes[oldIndex]);
 
         // TODO: use this.Content to load your game content here
     }
@@ -40,6 +42,8 @@ public class Game1 : Game
             Exit();
 
         // TODO: Add your update logic here
+        
+        
 
         base.Update(gameTime);
     }
@@ -49,7 +53,7 @@ public class Game1 : Game
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
         _spriteBatch.Begin();
-        block.Draw(_spriteBatch);
+        oldBlock.Draw(_spriteBatch);
         _spriteBatch.End();
 
         // TODO: Add your drawing code here

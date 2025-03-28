@@ -1,17 +1,17 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Tetris
 {
+    public enum BlockType{O, I, S, Z, L, J, T}
     public class Block
     {
         private Texture2D texture;
         private bool[,] tiles;
 
-        public enum BlockType{O, I, S, Z, L, J, T}
-
-        public bool[,] BlockShape(BlockType blockType)
+        private bool[,] BlockShape(BlockType blockType)
         {
             return blockType switch
             {
@@ -72,13 +72,14 @@ namespace Tetris
             tiles = BlockShape(blockType);
         }
 
+
         public void Draw(SpriteBatch spriteBatch){
             for (int i = 0; i < 4; i++)
             {
                 for (int j = 0; j < 4; j++)
                 {
                     if(tiles[i, j] == true){
-                        spriteBatch.Draw(texture, new Rectangle(340 + 20*i,0 + 20*j,20,20), Color.Black);
+                        spriteBatch.Draw(texture, new Rectangle(400 + 20*j, 0 + 20*i, 20, 20), Color.Black);
                     }
                 }
             }
