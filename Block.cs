@@ -9,7 +9,10 @@ namespace Tetris
     public class Block
     {
         private Texture2D texture;
-        private bool[,] tiles;
+        public bool[,] tiles;
+        public int X{get; set;} = 3;
+        public int Y{get; set;} = 0;
+        public BlockType Type { get; set; }
 
         private bool[,] BlockShape(BlockType blockType)
         {
@@ -69,7 +72,24 @@ namespace Tetris
 
         public Block(Texture2D texture, BlockType blockType){
             this.texture = texture;
+            Type = blockType;
             tiles = BlockShape(blockType);
+        }
+
+        public void Rotate(){
+            int rows = tiles.GetLength(0);
+            int cols = tiles.GetLength(1);
+
+            bool[,] rotatedTiles = new bool[cols, rows];
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    rotatedTiles[j, rows - 1 - i] = tiles[i, j];
+                }
+            }
+            tiles = rotatedTiles;
         }
 
 
@@ -79,7 +99,7 @@ namespace Tetris
                 for (int j = 0; j < 4; j++)
                 {
                     if(tiles[i, j] == true){
-                        spriteBatch.Draw(texture, new Rectangle(400 + 20*j, 0 + 20*i, 20, 20), Color.Black);
+                        spriteBatch.Draw(texture, new Rectangle(X*20 + 20*j, Y*20+ 20*i, 20, 20), Color.Black);
                     }
                 }
             }

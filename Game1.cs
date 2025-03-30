@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SharpDX.Direct3D9;
@@ -10,9 +11,11 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     Texture2D pixel;
-    private BlockType[] blockTypes = {BlockType.O, BlockType.I, BlockType.S, BlockType.Z, BlockType.L, BlockType.J, BlockType.T};
-    private Block oldBlock;
-    private int oldIndex = 4;
+    private Block newBlock;
+    private GameField gameField;
+    private double fallSpeed = 0.5;
+    private double fallTime = 0;
+
 
     public Game1()
     {
@@ -22,7 +25,11 @@ public class Game1 : Game
     }
     protected override void Initialize()
     {
+        _graphics.PreferredBackBufferHeight = 400;
+        _graphics.PreferredBackBufferWidth = 200;
+        _graphics.ApplyChanges();
         // TODO: Add your initialization logic here
+        gameField = new GameField();
         base.Initialize();
 
     }
@@ -31,7 +38,6 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         pixel = Content.Load<Texture2D>("pixel");
-        oldBlock = new Block(pixel, blockTypes[oldIndex]);
 
         // TODO: use this.Content to load your game content here
     }
@@ -42,6 +48,17 @@ public class Game1 : Game
             Exit();
 
         // TODO: Add your update logic here
+        fallTime += gameTime.ElapsedGameTime.TotalSeconds;
+        if (fallTime>=fallSpeed){
+            if(!gameField.CheckCollision(newBlock, newBlock.X, newBlock.Y+1)){
+                newBlock.Y++;
+            }
+            else{
+                gameField.Place(newBlock);
+                Spawn();
+            }
+            fallTime = 0;
+        }
         
         
 
@@ -53,11 +70,48 @@ public class Game1 : Game
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
         _spriteBatch.Begin();
-        oldBlock.Draw(_spriteBatch);
+        for (int i = 0; i < 20; i++)
+        {
+            for (int j = 0; j < 10; j++)
+            {
+                if(gameField.field[i, j]){
+                    _spriteBatch.Draw(pixel, new Rectangle(20*i, 20*j, 20, 20), Color.White);
+                }
+            }
+        }
+        newBlock.Draw(_spriteBatch);
         _spriteBatch.End();
 
         // TODO: Add your drawing code here
 
         base.Draw(gameTime);
     }
+
+    private void BlockUpdate(){
+        KeyboardState kState = new KeyboardState();
+
+        if(kState.IsKeyDown(Keys.Left)&&!gameField.CheckCollision(newBlock, newBlock.X-1, newBlock.Y)){
+            newBlock.X--;
+        }
+        if(kState.IsKeyDown(Keys.Right)&&!gameField.CheckCollision(newBlock, newBlock.X+1, newBlock.Y)){
+            newBlock.X++;
+        }
+        if(kState.IsKeyDown(Keys.Down)){
+            fallSpeed = 0.1;
+        }
+        else{
+            fallSpeed = 0.5;
+        }
+
+        if(kState.IsKeyDown(Keys.Up)){
+            newBlock.Rotate();
+        }
+    }
+
+    private void Spawn(){
+        Random rng = new Random();
+        newBlock = new Block(pixel, (BlockType)rng.Next(0,6));
+    }
+
+
 }
