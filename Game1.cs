@@ -38,6 +38,7 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         pixel = Content.Load<Texture2D>("pixel");
+        newBlock = new Block(pixel, BlockType.I);
 
         // TODO: use this.Content to load your game content here
     }
@@ -60,7 +61,7 @@ public class Game1 : Game
             fallTime = 0;
         }
         
-        
+        BlockUpdate();
 
         base.Update(gameTime);
     }
@@ -88,7 +89,7 @@ public class Game1 : Game
     }
 
     private void BlockUpdate(){
-        KeyboardState kState = new KeyboardState();
+        KeyboardState kState = Keyboard.GetState();
 
         if(kState.IsKeyDown(Keys.Left)&&!gameField.CheckCollision(newBlock, newBlock.X-1, newBlock.Y)){
             newBlock.X--;

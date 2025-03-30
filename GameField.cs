@@ -12,6 +12,7 @@ namespace Tetris
             field = new bool[rows, cols];
         }
 
+
         public bool CheckCollision(Block block, int X, int Y){
             for (int i = 0; i < 4; i++)
             {
