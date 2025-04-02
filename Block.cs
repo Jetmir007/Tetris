@@ -20,49 +20,43 @@ namespace Tetris
             {
                 BlockType.O => new bool[,]
                 {
-                    {true, true, false, false},
-                    {true, true, false, false},
-                    {false, false, false, false},
-                    {false, false, false, false}
+                    {true, true},
+                    {true, true}
                 },
                 BlockType.I => new bool[,]
                 {
-                    {true, false, false, false},
-                    {true, false, false, false},
-                    {true, false, false, false},
-                    {true, false, false, false}
+                    {true},
+                    {true},
+                    {true},
+                    {true}
                 },
                 BlockType.S => new bool[,]
                 {
-                    {false, true, true, false},
-                    {true, true, false, false},
-                    {false, false, false, false},
-                    {false, false, false, false}
+                    {false, true, true},
+                    {true, true, false}
+
                 },
                 BlockType.Z => new bool[,]
                 {
-                    {true, true, false, false},
-                    {false, true, true, false},
-                    {false, false, false, false},
-                    {false, false, false, false}
+                    {true, true, false},
+                    {false, true, true}
                 },
                 BlockType.L => new bool[,]
                 {
-                    {true, false, false, false},
-                    {true, false, false, false},
-                    {true, true, false, false},
-                    {false, false, false, false}
+                    {true, false},
+                    {true, false},
+                    {true, true}
                 },
                 BlockType.J => new bool[,]
                 {
-                    {false, true, false, false},
-                    {false, true, false, false},
-                    {true, true, false, false},
+                    {false, true},
+                    {false, true},
+                    {true, true}
                 },
                 BlockType.T => new bool[,]
                 {
-                    {true, true, true, false},
-                    {false, true, false, false}
+                    {true, true, true},
+                    {false, true, false}
                 }
             };
         }
@@ -91,9 +85,9 @@ namespace Tetris
 
 
         public void Draw(SpriteBatch spriteBatch){
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < tiles.GetLength(0); i++)
             {
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < tiles.GetLength(1); j++)
                 {
                     if(tiles[i, j] == true){
                         spriteBatch.Draw(texture, new Rectangle(X*20 + 20*j, Y*20+ 20*i, 20, 20), Color.Black);

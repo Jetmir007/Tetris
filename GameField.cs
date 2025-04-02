@@ -5,18 +5,17 @@ namespace Tetris
 {
     public class GameField
     {
-        private int rows = 20;
+        private int rows = 24;
         private int cols = 10;
         public bool[,] field;
         public GameField(){
             field = new bool[rows, cols];
         }
 
-
         public bool CheckCollision(Block block, int X, int Y){
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < block.tiles.GetLength(0); i++)
             {
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < block.tiles.GetLength(1); j++)
                 {
                     if(block.tiles[i, j]){
                         int nyX = X +i;
@@ -32,9 +31,9 @@ namespace Tetris
         }
 
         public void Place(Block block){
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < block.tiles.GetLength(0); i++)
             {
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < block.tiles.GetLength(1); j++)
                 {
                     if(block.tiles[i, j]){
                         field[block.Y + i, block.X + j] = true;
@@ -42,9 +41,5 @@ namespace Tetris
                 }
             }
         }
-
-    
-
-        
     }
 }

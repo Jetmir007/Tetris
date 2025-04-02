@@ -15,6 +15,8 @@ public class Game1 : Game
     private GameField gameField;
     private double fallSpeed = 0.5;
     private double fallTime = 0;
+    private KeyboardState newKState;
+    private KeyboardState oldKstate;
 
 
     public Game1()
@@ -25,7 +27,7 @@ public class Game1 : Game
     }
     protected override void Initialize()
     {
-        _graphics.PreferredBackBufferHeight = 400;
+        _graphics.PreferredBackBufferHeight = 480;
         _graphics.PreferredBackBufferWidth = 200;
         _graphics.ApplyChanges();
         // TODO: Add your initialization logic here
@@ -71,12 +73,12 @@ public class Game1 : Game
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
         _spriteBatch.Begin();
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 24; i++)
         {
             for (int j = 0; j < 10; j++)
             {
                 if(gameField.field[i, j]){
-                    _spriteBatch.Draw(pixel, new Rectangle(20*i, 20*j, 20, 20), Color.White);
+                    _spriteBatch.Draw(pixel, new Rectangle(20*i, 20*j, 20, 20), Color.Red);
                 }
             }
         }
@@ -89,29 +91,29 @@ public class Game1 : Game
     }
 
     private void BlockUpdate(){
-        KeyboardState kState = Keyboard.GetState();
-
-        if(kState.IsKeyDown(Keys.Left)&&!gameField.CheckCollision(newBlock, newBlock.X-1, newBlock.Y)){
+        newKState = Keyboard.GetState();
+        if(newKState.IsKeyDown(Keys.Left)&&!gameField.CheckCollision(newBlock, newBlock.X-1, newBlock.Y)){
             newBlock.X--;
         }
-        if(kState.IsKeyDown(Keys.Right)&&!gameField.CheckCollision(newBlock, newBlock.X+1, newBlock.Y)){
+        if(newKState.IsKeyDown(Keys.Right)&&!gameField.CheckCollision(newBlock, newBlock.X+1, newBlock.Y)){
             newBlock.X++;
         }
-        if(kState.IsKeyDown(Keys.Down)){
+        if(newKState.IsKeyDown(Keys.Down)){
             fallSpeed = 0.1;
         }
         else{
             fallSpeed = 0.5;
         }
 
-        if(kState.IsKeyDown(Keys.Up)){
+        if(newKState.IsKeyDown(Keys.Up)&&oldKstate.IsKeyUp(Keys.Up)){
             newBlock.Rotate();
         }
+        oldKstate = newKState;
     }
 
     private void Spawn(){
         Random rng = new Random();
-        newBlock = new Block(pixel, (BlockType)rng.Next(0,6));
+        newBlock = new Block(pixel, (BlockType)rng.Next(0,7));
     }
 
 
