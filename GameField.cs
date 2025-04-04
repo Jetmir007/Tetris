@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -21,7 +22,7 @@ namespace Tetris
                         int nyX = X +i;
                         int nyY = Y + j;
 
-                        if(nyX < 0 || nyX >= cols || nyY >= rows || nyY < 0 || field[nyY, nyX]){
+                        if(nyX < 0 || nyX >= cols || nyY+block.tiles.GetLength(1) >= rows || nyY < 0 || field[nyY, nyX]){
                             return true;
                         }
                     }

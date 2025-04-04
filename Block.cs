@@ -20,43 +20,52 @@ namespace Tetris
             {
                 BlockType.O => new bool[,]
                 {
-                    {true, true},
-                    {true, true}
+                    {true, true, false, false},
+                    {true, true, false, false},
+                    {false, false, false, false},
+                    {false, false, false, false}
                 },
                 BlockType.I => new bool[,]
                 {
-                    {true},
-                    {true},
-                    {true},
-                    {true}
+                    {true, false, false, false},
+                    {true, false, false, false},
+                    {true, false, false, false},
+                    {true, false, false, false}
                 },
                 BlockType.S => new bool[,]
                 {
-                    {false, true, true},
-                    {true, true, false}
-
+                    {false, true, true, false},
+                    {true, true, false, false},
+                    {false, false, false, false},
+                    {false, false, false, false}
                 },
                 BlockType.Z => new bool[,]
                 {
-                    {true, true, false},
-                    {false, true, true}
+                    {true, true, false, false},
+                    {false, true, true, false},
+                    {false, false, false, false},
+                    {false, false, false, false}
                 },
                 BlockType.L => new bool[,]
                 {
-                    {true, false},
-                    {true, false},
-                    {true, true}
+                    {true, false, false, false},
+                    {true, false, false, false},
+                    {true, true, false, false},
+                    {false, false, false, false}
                 },
                 BlockType.J => new bool[,]
                 {
-                    {false, true},
-                    {false, true},
-                    {true, true}
+                    {false, true, false, false},
+                    {false, true, false, false},
+                    {true, true, false, false},
+                    {false, false, false, false}
                 },
                 BlockType.T => new bool[,]
                 {
-                    {true, true, true},
-                    {false, true, false}
+                    {true, true, true, false},
+                    {false, true, false, false},
+                    {false, false, false, false},
+                    {false, false, false, false}
                 },
                 _ => throw new NotImplementedException()
             };

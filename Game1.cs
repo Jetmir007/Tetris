@@ -40,7 +40,8 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         pixel = Content.Load<Texture2D>("pixel");
-        newBlock = new Block(pixel, BlockType.Z);
+        //pixel.SetData(new Color[]{Color.White});
+        newBlock = new Block(pixel, BlockType.I);
 
         // TODO: use this.Content to load your game content here
     }
@@ -53,7 +54,7 @@ public class Game1 : Game
         // TODO: Add your update logic here
         fallTime += gameTime.ElapsedGameTime.TotalSeconds;
         if (fallTime>=fallSpeed){
-            if(!gameField.CheckCollision(newBlock, newBlock.X, newBlock.Y+1)){
+            if(!gameField.CheckCollision(newBlock, newBlock.X, newBlock.Y)){
                 newBlock.Y++;
             }
             else{
@@ -73,16 +74,16 @@ public class Game1 : Game
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
         _spriteBatch.Begin();
+        newBlock.Draw(_spriteBatch);
         for (int i = 0; i < 24; i++)
         {
             for (int j = 0; j < 10; j++)
             {
                 if(gameField.field[i, j]){
-                    _spriteBatch.Draw(pixel, new Rectangle(20*i, 20*j, 20, 20), Color.Red);
+                    _spriteBatch.Draw(pixel, new Rectangle(20*j, 20*i, 20, 20), Color.Red);
                 }
             }
         }
-        newBlock.Draw(_spriteBatch);
         _spriteBatch.End();
 
         // TODO: Add your drawing code here
@@ -115,6 +116,4 @@ public class Game1 : Game
         Random rng = new Random();
         newBlock = new Block(pixel, (BlockType)rng.Next(0,7));
     }
-
-
 }
