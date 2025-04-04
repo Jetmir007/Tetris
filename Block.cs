@@ -57,7 +57,8 @@ namespace Tetris
                 {
                     {true, true, true},
                     {false, true, false}
-                }
+                },
+                _ => throw new NotImplementedException()
             };
         }
 
