@@ -6,8 +6,8 @@ namespace Tetris
 {
     public class GameField
     {
-        private int rows = 24;
-        private int cols = 10;
+        public int rows = 24;
+        public int cols = 10;
         public bool[,] field;
         public GameField(){
             field = new bool[rows, cols];
@@ -19,10 +19,10 @@ namespace Tetris
                 for (int j = 0; j < block.tiles.GetLength(1); j++)
                 {
                     if(block.tiles[i, j]){
-                        int nyX = X +i;
-                        int nyY = Y + j;
+                        int nyX = X + j;
+                        int nyY = Y + i;
 
-                        if(nyX < 0 || nyX >= cols || nyY+block.tiles.GetLength(1) >= rows || nyY < 0 || field[nyY, nyX]){
+                        if(nyX < 0 || nyX >= cols || nyY >= rows || nyY < 0 || field[nyY, nyX]){
                             return true;
                         }
                     }

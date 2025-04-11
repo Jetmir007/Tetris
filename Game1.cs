@@ -54,11 +54,12 @@ public class Game1 : Game
         // TODO: Add your update logic here
         fallTime += gameTime.ElapsedGameTime.TotalSeconds;
         if (fallTime>=fallSpeed){
-            if(!gameField.CheckCollision(newBlock, newBlock.X, newBlock.Y)){
+            if(!gameField.CheckCollision(newBlock, newBlock.X, newBlock.Y+1)){
                 newBlock.Y++;
             }
             else{
                 gameField.Place(newBlock);
+                Clear();
                 Spawn();
             }
             fallTime = 0;
@@ -93,10 +94,10 @@ public class Game1 : Game
 
     private void BlockUpdate(){
         newKState = Keyboard.GetState();
-        if(newKState.IsKeyDown(Keys.Left)&&!gameField.CheckCollision(newBlock, newBlock.X-1, newBlock.Y)){
+        if(newKState.IsKeyDown(Keys.Left)&&!gameField.CheckCollision(newBlock, newBlock.X-1, newBlock.Y)&&oldKstate.IsKeyUp(Keys.Left)){
             newBlock.X--;
         }
-        if(newKState.IsKeyDown(Keys.Right)&&!gameField.CheckCollision(newBlock, newBlock.X+1, newBlock.Y)){
+        if(newKState.IsKeyDown(Keys.Right)&&!gameField.CheckCollision(newBlock, newBlock.X+1, newBlock.Y)&&oldKstate.IsKeyUp(Keys.Right)){
             newBlock.X++;
         }
         if(newKState.IsKeyDown(Keys.Down)){
@@ -115,5 +116,40 @@ public class Game1 : Game
     private void Spawn(){
         Random rng = new Random();
         newBlock = new Block(pixel, (BlockType)rng.Next(0,7));
+    }
+
+    private void Clear(){
+        int i = gameField.rows-1;
+        while(i>=0){
+            bool full = true;
+
+            for (int j = 0; j < gameField.cols; j++)
+            {
+                if(!gameField.field[i, j]){
+                    full = false;
+                    break;
+                }                
+            }
+
+            if(full){
+                for (int x = 0; x < gameField.cols; x++){
+                    gameField.field[i, x] = false;
+                }
+                for (int y = i; y > 0; y--)
+                {
+                    for (int x = 0; x < gameField.cols; x++)
+                    {
+                        gameField.field[y, x] = gameField.field[y-1, x];
+                    }
+                }
+
+                for(int col = 0; col<gameField.cols; col++){
+                    gameField.field[0,col] = false;
+                }
+            }
+            else{
+                i--;
+            }
+        }
     }
 }
