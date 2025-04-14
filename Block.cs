@@ -77,7 +77,7 @@ namespace Tetris
             tiles = BlockShape(blockType);
         }
 
-        public void Rotate(){
+        public bool[,] Rotate(){
             int rows = tiles.GetLength(0);
             int cols = tiles.GetLength(1);
 
@@ -90,7 +90,7 @@ namespace Tetris
                     rotatedTiles[j, rows - 1 - i] = tiles[i, j];
                 }
             }
-            tiles = rotatedTiles;
+            return rotatedTiles;
         }
 
 

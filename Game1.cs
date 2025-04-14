@@ -17,6 +17,8 @@ public class Game1 : Game
     private double fallTime = 0;
     private KeyboardState newKState;
     private KeyboardState oldKstate;
+    private int score = 0;
+    private SpriteFont font;
 
 
     public Game1()
@@ -40,6 +42,7 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         pixel = Content.Load<Texture2D>("pixel");
+        font = Content.Load<SpriteFont>("spritefont");
         //pixel.SetData(new Color[]{Color.White});
         newBlock = new Block(pixel, BlockType.I);
 
@@ -59,7 +62,13 @@ public class Game1 : Game
             }
             else{
                 gameField.Place(newBlock);
-                Clear();
+                int lines = Clear();
+                switch(lines){
+                    case 1: score += 100; break;
+                    case 2: score += 200; break;
+                    case 3: score += 300; break;
+                    case 4: score += 500; break;
+                }
                 Spawn();
             }
             fallTime = 0;
@@ -85,6 +94,7 @@ public class Game1 : Game
                 }
             }
         }
+        _spriteBatch.DrawString(font, "Score: " + Convert.ToString(score), new Vector2(15, 15), Color.MonoGameOrange);
         _spriteBatch.End();
 
         // TODO: Add your drawing code here
@@ -108,18 +118,22 @@ public class Game1 : Game
         }
 
         if(newKState.IsKeyDown(Keys.Up)&&oldKstate.IsKeyUp(Keys.Up)){
-            newBlock.Rotate();
+            bool[,] rotatedTiles = newBlock.Rotate();
+            if(!gameField.CheckCollisionRotate(rotatedTiles, newBlock.X, newBlock.Y)){
+                newBlock.tiles = rotatedTiles;
+            }
         }
         oldKstate = newKState;
     }
 
     private void Spawn(){
         Random rng = new Random();
-        newBlock = new Block(pixel, (BlockType)rng.Next(0,7));
+        newBlock = new Block(pixel, (BlockType)rng.Next(0,6));
     }
 
-    private void Clear(){
+    private int Clear(){
         int i = gameField.rows-1;
+        int clears = 0;
         while(i>=0){
             bool full = true;
 
@@ -132,6 +146,7 @@ public class Game1 : Game
             }
 
             if(full){
+                clears++;
                 for (int x = 0; x < gameField.cols; x++){
                     gameField.field[i, x] = false;
                 }
@@ -151,5 +166,6 @@ public class Game1 : Game
                 i--;
             }
         }
+        return clears;
     }
 }

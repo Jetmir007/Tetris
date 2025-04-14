@@ -30,6 +30,24 @@ namespace Tetris
             }
             return false;
         }
+        
+        public bool CheckCollisionRotate(bool[,] tiles, int X, int Y){
+            for (int i = 0; i < tiles.GetLength(0); i++)
+            {
+                for (int j = 0; j < tiles.GetLength(1); j++)
+                {
+                    if(tiles[i, j]){
+                        int nyX = X + j;
+                        int nyY = Y + i;
+
+                        if(nyX < 0 || nyX >= cols || nyY >= rows || nyY < 0 || field[nyY, nyX]){
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
 
         public void Place(Block block){
             for (int i = 0; i < block.tiles.GetLength(0); i++)
