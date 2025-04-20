@@ -30,7 +30,7 @@ public class Game1 : Game
     protected override void Initialize()
     {
         _graphics.PreferredBackBufferHeight = 480;
-        _graphics.PreferredBackBufferWidth = 200;
+        _graphics.PreferredBackBufferWidth = 600;
         _graphics.ApplyChanges();
         // TODO: Add your initialization logic here
         gameField = new GameField();
@@ -90,7 +90,7 @@ public class Game1 : Game
             for (int j = 0; j < 10; j++)
             {
                 if(gameField.field[i, j]){
-                    _spriteBatch.Draw(pixel, new Rectangle(20*j, 20*i, 20, 20), Color.Red);
+                    _spriteBatch.Draw(pixel, new Rectangle(20*j+200, 20*i, 20, 20), Color.Red);
                 }
             }
         }

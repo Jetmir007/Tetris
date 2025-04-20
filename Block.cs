@@ -100,7 +100,7 @@ namespace Tetris
                 for (int j = 0; j < tiles.GetLength(1); j++)
                 {
                     if(tiles[i, j] == true){
-                        spriteBatch.Draw(texture, new Rectangle(X*20 + 20*j, Y*20+ 20*i, 20, 20), Color.Black);
+                        spriteBatch.Draw(texture, new Rectangle(X*20 + 200 + 20*j, Y*20+ 20*i, 20, 20), Color.Black);
                     }
                 }
             }
