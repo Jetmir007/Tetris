@@ -84,6 +84,8 @@ public class Game1 : Game
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
         _spriteBatch.Begin();
+        _spriteBatch.Draw(pixel, new Rectangle(0, 0, 200, 480), Color.Brown);
+        _spriteBatch.Draw(pixel, new Rectangle(400, 0, 200, 480), Color.Brown);
         newBlock.Draw(_spriteBatch);
         for (int i = 0; i < 24; i++)
         {
