@@ -77,3 +77,4 @@ C:\Github\Tetris\obj\Debug\net6.0-windows\Tetris.pdb
 C:\Github\Tetris\obj\Debug\net6.0-windows\Tetris.genruntimeconfig.cache
 C:\Github\Tetris\obj\Debug\net6.0-windows\ref\Tetris.dll
 C:\Github\Tetris\bin\Debug\net6.0-windows\Content\spritefont.xnb
+C:\Users\Admin\Documents\GitHub\Tetris\bin\Debug\net6.0-windows\Content\spritefont.xnb
