@@ -19,6 +19,7 @@ public class Game1 : Game
     private KeyboardState oldKstate;
     private int score = 0;
     private SpriteFont font;
+    private Block saveBlock;
 
 
     public Game1()
@@ -44,7 +45,7 @@ public class Game1 : Game
         pixel = Content.Load<Texture2D>("pixel");
         font = Content.Load<SpriteFont>("spritefont");
         //pixel.SetData(new Color[]{Color.White});
-        newBlock = new Block(pixel, BlockType.I);
+        Spawn();
 
         // TODO: use this.Content to load your game content here
     }
@@ -92,7 +93,7 @@ public class Game1 : Game
             for (int j = 0; j < 10; j++)
             {
                 if(gameField.field[i, j]){
-                    _spriteBatch.Draw(pixel, new Rectangle(20*j+200, 20*i, 20, 20), Color.Red);
+                    _spriteBatch.Draw(pixel, new Rectangle(20*j+200, 20*i, 20, 20), Color.Black);
                 }
             }
         }
@@ -112,8 +113,11 @@ public class Game1 : Game
         if(newKState.IsKeyDown(Keys.Right)&&!gameField.CheckCollision(newBlock, newBlock.X+1, newBlock.Y)&&oldKstate.IsKeyUp(Keys.Right)){
             newBlock.X++;
         }
-        if(newKState.IsKeyDown(Keys.Down)){
+        if(newKState.IsKeyDown(Keys.Down)&&score<=200){
             fallSpeed = 0.1;
+        }
+        else if(score>200){
+            fallSpeed = 0.001;
         }
         else{
             fallSpeed = 0.5;
