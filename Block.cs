@@ -14,7 +14,7 @@ namespace Tetris
         public int Y{get; set;} = 0;
         public BlockType Type { get; set; }
 
-        private bool[,] BlockShape(BlockType blockType)
+        public bool[,] BlockShape(BlockType blockType)
         {
             return blockType switch
             {
@@ -77,6 +77,11 @@ namespace Tetris
             tiles = BlockShape(blockType);
         }
 
+        static public BlockType RandomType(){
+        Random rng = new Random();
+        return (BlockType)rng.Next(0,7);
+        }
+
         public bool[,] Rotate(){
             int rows = tiles.GetLength(0);
             int cols = tiles.GetLength(1);
@@ -93,6 +98,11 @@ namespace Tetris
             return rotatedTiles;
         }
 
+        public Block Clone(Texture2D texture2D){
+            return new Block(texture2D, this.Type);
+        }
+
+
 
         public void Draw(SpriteBatch spriteBatch){
             for (int i = 0; i < tiles.GetLength(0); i++)
@@ -100,7 +110,7 @@ namespace Tetris
                 for (int j = 0; j < tiles.GetLength(1); j++)
                 {
                     if(tiles[i, j] == true){
-                        spriteBatch.Draw(texture, new Rectangle(X*20 + 200 + 20*j, Y*20+ 20*i, 20, 20), Color.Black);
+                        spriteBatch.Draw(texture, new Rectangle(X*20 + 200 + 20*j, Y*20+ 20*i, 20, 20), Color.Aquamarine);
                     }
                 }
             }

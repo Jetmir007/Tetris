@@ -19,7 +19,9 @@ public class Game1 : Game
     private KeyboardState oldKstate;
     private int score = 0;
     private SpriteFont font;
-    private Block saveBlock;
+    private Block saveBlock = null;
+    private bool canSave = true;
+    private Block nextBlock;
 
 
     public Game1()
@@ -70,12 +72,15 @@ public class Game1 : Game
                     case 3: score += 300; break;
                     case 4: score += 500; break;
                 }
+                canSave = true;
                 Spawn();
             }
             fallTime = 0;
         }
-        
+        newKState = Keyboard.GetState();
+        Save();
         BlockUpdate();
+        oldKstate = newKState;
 
         base.Update(gameTime);
     }
@@ -85,18 +90,42 @@ public class Game1 : Game
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
         _spriteBatch.Begin();
-        _spriteBatch.Draw(pixel, new Rectangle(0, 0, 200, 480), Color.Brown);
-        _spriteBatch.Draw(pixel, new Rectangle(400, 0, 200, 480), Color.Brown);
+        _spriteBatch.Draw(pixel, new Rectangle(0, 0, 200, 480), Color.MediumPurple);
+        _spriteBatch.Draw(pixel, new Rectangle(400, 0, 200, 480), Color.MediumPurple);
         newBlock.Draw(_spriteBatch);
         for (int i = 0; i < 24; i++)
         {
             for (int j = 0; j < 10; j++)
             {
                 if(gameField.field[i, j]){
-                    _spriteBatch.Draw(pixel, new Rectangle(20*j+200, 20*i, 20, 20), Color.Black);
+                    _spriteBatch.Draw(pixel, new Rectangle(20*j+200, 20*i, 20, 20), Color.MediumVioletRed);
                 }
             }
         }
+        if(saveBlock!=null){
+            for (int i = 0; i < saveBlock.tiles.GetLength(0); i++)
+            {
+                for (int j = 0; j < saveBlock.tiles.GetLength(1); j++)
+                {
+                    if(saveBlock.tiles[i, j]){
+                        _spriteBatch.Draw(pixel, new Rectangle(60+j*20, 130+i*20, 20, 20), Color.Aquamarine);
+                    }
+                }
+            }
+        }
+        if(nextBlock!=null){
+            for (int i = 0; i < nextBlock.tiles.GetLength(0); i++)
+            {
+                for (int j = 0; j < nextBlock.tiles.GetLength(1); j++)
+                {
+                    if(nextBlock.tiles[i, j]){
+                        _spriteBatch.Draw(pixel, new Rectangle(460+j*20, 130+i*20, 20, 20), Color.Aquamarine);
+                    }
+                }
+            }
+        }
+        _spriteBatch.DrawString(font, "Saved Block:", new Vector2(15, 80), Color.MonoGameOrange);
+        _spriteBatch.DrawString(font, "Next Block", new Vector2(415, 80), Color.MonoGameOrange);
         _spriteBatch.DrawString(font, "Score: " + Convert.ToString(score), new Vector2(15, 15), Color.MonoGameOrange);
         _spriteBatch.End();
 
@@ -107,20 +136,24 @@ public class Game1 : Game
 
     private void BlockUpdate(){
         newKState = Keyboard.GetState();
+        int lines = Clear();
         if(newKState.IsKeyDown(Keys.Left)&&!gameField.CheckCollision(newBlock, newBlock.X-1, newBlock.Y)&&oldKstate.IsKeyUp(Keys.Left)){
             newBlock.X--;
         }
         if(newKState.IsKeyDown(Keys.Right)&&!gameField.CheckCollision(newBlock, newBlock.X+1, newBlock.Y)&&oldKstate.IsKeyUp(Keys.Right)){
             newBlock.X++;
         }
-        if(newKState.IsKeyDown(Keys.Down)&&score<=200){
-            fallSpeed = 0.1;
+        if(newKState.IsKeyDown(Keys.Down)&&lines<=4){
+            fallSpeed = 0.04;
         }
-        else if(score>200){
-            fallSpeed = 0.001;
-        }
-        else{
+        else if(lines<=4){
             fallSpeed = 0.5;
+        }
+        else if(lines>4){
+            fallSpeed = 0.00035;
+        }
+        else if(lines>7){
+            fallSpeed = 0.25;
         }
 
         if(newKState.IsKeyDown(Keys.Up)&&oldKstate.IsKeyUp(Keys.Up)){
@@ -129,17 +162,27 @@ public class Game1 : Game
                 newBlock.tiles = rotatedTiles;
             }
         }
-        oldKstate = newKState;
     }
 
+
     private void Spawn(){
-        Random rng = new Random();
-        newBlock = new Block(pixel, (BlockType)rng.Next(0,6));
+        if(nextBlock == null){
+            newBlock = new Block(pixel, Block.RandomType());
+            nextBlock = new Block(pixel, Block.RandomType());
+        }
+        else{
+            newBlock = nextBlock;
+            newBlock.X = 3;
+            newBlock.Y = 0;
+
+            nextBlock = new Block(pixel, Block.RandomType());
+        }
     }
 
     private int Clear(){
         int i = gameField.rows-1;
         int clears = 0;
+        int total = 0;
         while(i>=0){
             bool full = true;
 
@@ -153,6 +196,7 @@ public class Game1 : Game
 
             if(full){
                 clears++;
+                total += clears;
                 for (int x = 0; x < gameField.cols; x++){
                     gameField.field[i, x] = false;
                 }
@@ -172,6 +216,25 @@ public class Game1 : Game
                 i--;
             }
         }
+        return total;
         return clears;
+    }
+
+    private void Save(){
+        if(newKState.IsKeyDown(Keys.S)&&oldKstate.IsKeyUp(Keys.S)&&canSave){
+            if(saveBlock == null){
+                saveBlock = newBlock.Clone(pixel);
+                Spawn();
+            }
+
+            else{
+                Block temp = newBlock;
+                newBlock = new Block(pixel, saveBlock.Type);
+                newBlock.X = 3;
+                newBlock.Y = 0;
+                saveBlock = new Block(pixel, temp.Type);
+            }
+            canSave = false;
+        }
     }
 }
