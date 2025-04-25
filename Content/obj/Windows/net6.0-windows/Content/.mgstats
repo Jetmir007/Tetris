@@ -1,1 +1,3 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Github/Tetris/Content/pixel.png","C:/Github/Tetris/Content/bin/Windows/Content/pixel.xnb","TextureProcessor","Texture2DContent",119,89,0,3707845
+"C:/Github/Tetris/Content/spritefont.spritefont","C:/Github/Tetris/Content/bin/Windows/Content/spritefont.xnb","FontDescriptionProcessor","SpriteFontContent",2074,37919,0,2068921
