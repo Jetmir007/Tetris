@@ -23,6 +23,7 @@ public class Game1 : Game
     private bool canSave = true;
     private Block nextBlock;
     private int totalLines = 0;
+    private bool gameOver;
 
 
     public Game1()
@@ -74,7 +75,13 @@ public class Game1 : Game
                     case 4: score += 500; break;
                 }
                 canSave = true;
-                Spawn();
+                if(gameField.CheckCollision(newBlock, 3, 0)){
+                    return;
+                }
+                else{
+                    Spawn();
+                }
+                
             }
             fallTime = 0;
         }
@@ -130,6 +137,11 @@ public class Game1 : Game
         _spriteBatch.DrawString(font, "Total Lines: " + Convert.ToString(totalLines), new Vector2(415, 15), Color.MonoGameOrange);
         _spriteBatch.DrawString(font, "Score: " + Convert.ToString(score), new Vector2(15, 15), Color.MonoGameOrange);
         _spriteBatch.DrawString(font, "Level: " + Convert.ToString(totalLines/4), new Vector2(15,45), Color.MonoGameOrange);
+        if(gameField.CheckCollision(newBlock, 3, 0)){
+            _spriteBatch.DrawString(font, "GAME OVER", new Vector2(220, 100), Color.Black);
+            _spriteBatch.DrawString(font, "Score:" + Convert.ToString(score), new Vector2(220, 140), Color.Black);
+            _spriteBatch.DrawString(font, "Rows Cleared:" + Convert.ToString(totalLines), new Vector2(220, 180), Color.Black);
+        }
         _spriteBatch.End();
 
         // TODO: Add your drawing code here
@@ -150,7 +162,7 @@ public class Game1 : Game
             fallSpeed = 0.04;
         }
         else if(newKState.IsKeyDown(Keys.Space)&&oldKstate.IsKeyUp(Keys.Space)){
-            for (int i = 0; i < gameField.rows - newBlock.tiles.GetLength(1)-1; i++)
+            for (int i = 0; i < gameField.rows-1; i++)
             {
                 if(gameField.CheckCollision(newBlock, newBlock.X, newBlock.Y+i)){
                     newBlock.Y+=i-1;
