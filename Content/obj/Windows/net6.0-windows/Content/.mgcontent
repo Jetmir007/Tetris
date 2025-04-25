@@ -4,8 +4,8 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Github/Tetris/Content/pixel.png</File>
-    <File>C:/Github/Tetris/Content/spritefont.spritefont</File>
+    <File>C:/Users/Admin/Documents/GitHub/Tetris/Content/pixel.png</File>
+    <File>C:/Users/Admin/Documents/GitHub/Tetris/Content/spritefont.spritefont</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />
