@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -23,7 +26,11 @@ public class Game1 : Game
     private bool canSave = true;
     private Block nextBlock;
     private int totalLines = 0;
-    private bool gameOver;
+    private bool gameOver = false;
+    private List<ScoreEntry> leaderboard = new List<ScoreEntry>();
+    private string leaderboardFile = "leaderboard.txt";
+    private string pName = "";
+    private bool enterName = false;
 
 
     public Game1()
@@ -60,6 +67,7 @@ public class Game1 : Game
             Exit();
 
         // TODO: Add your update logic here
+        newKState = Keyboard.GetState();
         fallTime += gameTime.ElapsedGameTime.TotalSeconds;
         if (fallTime>=fallSpeed){
             if(!gameField.CheckCollision(newBlock, newBlock.X, newBlock.Y+1)){
@@ -76,6 +84,9 @@ public class Game1 : Game
                 }
                 canSave = true;
                 if(gameField.CheckCollision(newBlock, 3, 0)){
+                    gameOver = true;
+                    enterName = true;
+                    pName = "";
                     return;
                 }
                 else{
@@ -85,7 +96,25 @@ public class Game1 : Game
             }
             fallTime = 0;
         }
-        newKState = Keyboard.GetState();
+        if(gameOver&&enterName){
+            foreach(Keys key in newKState.GetPressedKeys()){
+                if(oldKstate.IsKeyUp(key)){
+                    if(key>=Keys.A&&key<=Keys.Z&&pName.Length<3){
+                        pName+=key.ToString();
+                    }
+                    else if(key == Keys.Back&&pName.Length>0){
+                        pName=pName.Substring(0, pName.Length-1);
+                    }
+                    else if(key == Keys.Enter&&pName.Length==3){
+                        leaderboard.Add(new ScoreEntry(pName, score));
+                        SaveLeaderboard();
+                        LoadLeaderboard();
+                        enterName = false;
+                        Console.WriteLine(pName);
+                    }
+                }
+            }
+        }
         Save();
         BlockUpdate();
         oldKstate = newKState;
@@ -137,10 +166,22 @@ public class Game1 : Game
         _spriteBatch.DrawString(font, "Total Lines: " + Convert.ToString(totalLines), new Vector2(415, 15), Color.MonoGameOrange);
         _spriteBatch.DrawString(font, "Score: " + Convert.ToString(score), new Vector2(15, 15), Color.MonoGameOrange);
         _spriteBatch.DrawString(font, "Level: " + Convert.ToString(totalLines/4), new Vector2(15,45), Color.MonoGameOrange);
-        if(gameField.CheckCollision(newBlock, 3, 0)){
+        if(gameOver){
             _spriteBatch.DrawString(font, "GAME OVER", new Vector2(220, 100), Color.Black);
             _spriteBatch.DrawString(font, "Score:" + Convert.ToString(score), new Vector2(220, 140), Color.Black);
             _spriteBatch.DrawString(font, "Rows Cleared:" + Convert.ToString(totalLines), new Vector2(220, 180), Color.Black);
+            if(enterName){
+                _spriteBatch.DrawString(font, "Enter 3-letter Name: "+ pName, new Vector2(220, 200), Color.Black);
+            }
+            else{
+                _spriteBatch.DrawString(font, "Leaderboard", new Vector2(200, 200), Color.MonoGameOrange);
+
+                for (int i = 0; i < leaderboard.Count; i++)
+                {
+                    var entry = leaderboard[i];
+                    _spriteBatch.DrawString(font, $"{i+1}.{entry.Name}-{entry.Score}", new Vector2(220, 220+i*20), Color.MonoGameOrange);
+                }
+            }
         }
         _spriteBatch.End();
 
@@ -264,5 +305,23 @@ public class Game1 : Game
             }
             canSave = false;
         }
+    }
+
+    private void LoadLeaderboard(){
+        leaderboard.Clear();
+
+        if(File.Exists(leaderboardFile)){
+            foreach(var line in File.ReadAllLines(leaderboardFile)){
+                var parts = line.Split(",");
+                if(parts.Length == 2&&int.TryParse(parts[1], out int score)){
+                    leaderboard.Add(new ScoreEntry(parts[0], score));
+                }
+            }
+        }
+        leaderboard = leaderboard.OrderByDescending(s=>s.Score).Take(10).ToList();
+    }
+
+    private void SaveLeaderboard(){
+        File.WriteAllLines(leaderboardFile, leaderboard.Select(entry => $"{entry.Name},{entry.Score}"));
     }
 }
