@@ -69,54 +69,71 @@ public class Game1 : Game
         // TODO: Add your update logic here
         newKState = Keyboard.GetState();
         fallTime += gameTime.ElapsedGameTime.TotalSeconds;
-        if (fallTime>=fallSpeed){
-            if(!gameField.CheckCollision(newBlock, newBlock.X, newBlock.Y+1)){
-                newBlock.Y++;
-            }
-            else{
-                gameField.Place(newBlock);
-                int lines = Clear();
-                switch(lines){
-                    case 1: score += 100; break;
-                    case 2: score += 200; break;
-                    case 3: score += 300; break;
-                    case 4: score += 500; break;
-                }
-                canSave = true;
-                if(gameField.CheckCollision(newBlock, 3, 0)){
-                    gameOver = true;
-                    enterName = true;
-                    pName = "";
-                    return;
+        if(!gameOver){
+            if (fallTime>=fallSpeed){
+                if(!gameField.CheckCollision(newBlock, newBlock.X, newBlock.Y+1)){
+                    newBlock.Y++;
                 }
                 else{
-                    Spawn();
+                    gameField.Place(newBlock);
+                    int lines = Clear();
+                    switch(lines){
+                        case 1: score += 100; break;
+                        case 2: score += 200; break;
+                        case 3: score += 300; break;
+                        case 4: score += 500; break;
+                    }
+                    canSave = true;
+                    if(gameField.CheckCollision(newBlock, 3, 0)){
+                        gameOver = true;
+                        enterName = true;
+                        pName = "";
+                        return;
+                    }
+                    else{
+                        Spawn();
+                    }
                 }
-                
-            }
             fallTime = 0;
+            }
+            Save();
+            BlockUpdate();
+        }
+        else if(gameOver&&!enterName){
+            if(newKState.IsKeyDown(Keys.R)){
+                for (int i = 0; i < 24; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        if(gameField.field[i, j]){
+                            gameField.field[i, j] = false;
+                        }
+                    }
+                }
+                gameOver = false;
+                score = 0;
+                totalLines = 0;
+            }
         }
         if(gameOver&&enterName){
             foreach(Keys key in newKState.GetPressedKeys()){
                 if(oldKstate.IsKeyUp(key)){
                     if(key>=Keys.A&&key<=Keys.Z&&pName.Length<3){
-                        pName+=key.ToString();
+                    pName+=key;
                     }
                     else if(key == Keys.Back&&pName.Length>0){
-                        pName=pName.Substring(0, pName.Length-1);
+                    pName=pName.Substring(0, pName.Length-1);
                     }
                     else if(key == Keys.Enter&&pName.Length==3){
-                        leaderboard.Add(new ScoreEntry(pName, score));
-                        SaveLeaderboard();
                         LoadLeaderboard();
+                        leaderboard.Add(new ScoreEntry(pName, score));
+                        leaderboard = leaderboard.OrderByDescending(s=>s.Score).Take(10).ToList();
+                        SaveLeaderboard();
                         enterName = false;
-                        Console.WriteLine(pName);
                     }
                 }
             }
         }
-        Save();
-        BlockUpdate();
         oldKstate = newKState;
 
         base.Update(gameTime);
@@ -125,11 +142,18 @@ public class Game1 : Game
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
-
         _spriteBatch.Begin();
-        _spriteBatch.Draw(pixel, new Rectangle(0, 0, 200, 480), Color.MediumPurple);
+        if(!gameOver){
+            _spriteBatch.Draw(pixel, new Rectangle(0, 0, 200, 480), Color.MediumPurple);
         _spriteBatch.Draw(pixel, new Rectangle(400, 0, 200, 480), Color.MediumPurple);
         newBlock.Draw(_spriteBatch);
+        for (int i = 1; i < 10; i++){
+            _spriteBatch.Draw(pixel, new Rectangle(20*i+200, 0, 1, 480), Color.Black);
+        }
+        for (int j = 1; j < 24; j++)
+        {
+            _spriteBatch.Draw(pixel, new Rectangle(200, 20*j, 200, 1), Color.Black);
+        }
         for (int i = 0; i < 24; i++)
         {
             for (int j = 0; j < 10; j++)
@@ -166,22 +190,24 @@ public class Game1 : Game
         _spriteBatch.DrawString(font, "Total Lines: " + Convert.ToString(totalLines), new Vector2(415, 15), Color.MonoGameOrange);
         _spriteBatch.DrawString(font, "Score: " + Convert.ToString(score), new Vector2(15, 15), Color.MonoGameOrange);
         _spriteBatch.DrawString(font, "Level: " + Convert.ToString(totalLines/4), new Vector2(15,45), Color.MonoGameOrange);
-        if(gameOver){
-            _spriteBatch.DrawString(font, "GAME OVER", new Vector2(220, 100), Color.Black);
-            _spriteBatch.DrawString(font, "Score:" + Convert.ToString(score), new Vector2(220, 140), Color.Black);
-            _spriteBatch.DrawString(font, "Rows Cleared:" + Convert.ToString(totalLines), new Vector2(220, 180), Color.Black);
+        }
+        else{
+            _spriteBatch.DrawString(font, "GAME OVER", new Vector2(220, 60), Color.Black);
+            _spriteBatch.DrawString(font, "Score:" + Convert.ToString(score), new Vector2(220, 110), Color.Black);
+            _spriteBatch.DrawString(font, "Rows Cleared:" + Convert.ToString(totalLines), new Vector2(220, 160), Color.Black);
             if(enterName){
-                _spriteBatch.DrawString(font, "Enter 3-letter Name: "+ pName, new Vector2(220, 200), Color.Black);
+                _spriteBatch.DrawString(font, "Enter 3-letter Name: "+ pName, new Vector2(200, 230), Color.Black);
             }
             else{
-                _spriteBatch.DrawString(font, "Leaderboard", new Vector2(200, 200), Color.MonoGameOrange);
+                _spriteBatch.DrawString(font, "Leaderboard", new Vector2(200, 230), Color.MonoGameOrange);
 
                 for (int i = 0; i < leaderboard.Count; i++)
                 {
                     var entry = leaderboard[i];
-                    _spriteBatch.DrawString(font, $"{i+1}.{entry.Name}-{entry.Score}", new Vector2(220, 220+i*20), Color.MonoGameOrange);
+                    _spriteBatch.DrawString(font, $"{i+1}.{entry.Name}-{entry.Score}", new Vector2(200, 250+i*20), Color.MonoGameOrange);
                 }
             }
+            _spriteBatch.DrawString(font, "After Entering Your Name Press R To Restart", new Vector2(15, 15), Color.MonoGameOrange);
         }
         _spriteBatch.End();
 
@@ -192,7 +218,6 @@ public class Game1 : Game
 
     private void BlockUpdate(){
         newKState = Keyboard.GetState();
-        int lines = Clear();
         if(newKState.IsKeyDown(Keys.A)&&!gameField.CheckCollision(newBlock, newBlock.X-1, newBlock.Y)&&oldKstate.IsKeyUp(Keys.A)){
             newBlock.X--;
         }
@@ -318,7 +343,6 @@ public class Game1 : Game
                 }
             }
         }
-        leaderboard = leaderboard.OrderByDescending(s=>s.Score).Take(10).ToList();
     }
 
     private void SaveLeaderboard(){
