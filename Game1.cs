@@ -118,13 +118,13 @@ public class Game1 : Game
         if(gameOver&&enterName){
             foreach(Keys key in newKState.GetPressedKeys()){
                 if(oldKstate.IsKeyUp(key)){
-                    if(key>=Keys.A&&key<=Keys.Z&&pName.Length<3){
-                    pName+=key;
+                    if(key>=Keys.A&&key<=Keys.Z){
+                        pName+=key;
                     }
                     else if(key == Keys.Back&&pName.Length>0){
-                    pName=pName.Substring(0, pName.Length-1);
+                        pName=pName.Substring(0, pName.Length-1);
                     }
-                    else if(key == Keys.Enter&&pName.Length==3){
+                    else if(key == Keys.Enter&&pName.Length>3){
                         LoadLeaderboard();
                         leaderboard.Add(new ScoreEntry(pName, score));
                         leaderboard = leaderboard.OrderByDescending(s=>s.Score).Take(10).ToList();
@@ -196,15 +196,15 @@ public class Game1 : Game
             _spriteBatch.DrawString(font, "Score:" + Convert.ToString(score), new Vector2(220, 110), Color.Black);
             _spriteBatch.DrawString(font, "Rows Cleared:" + Convert.ToString(totalLines), new Vector2(220, 160), Color.Black);
             if(enterName){
-                _spriteBatch.DrawString(font, "Enter 3-letter Name: "+ pName, new Vector2(200, 230), Color.Black);
+                _spriteBatch.DrawString(font, "Enter Name(Minimum 3-letters): "+ pName, new Vector2(100, 230), Color.Black);
             }
             else{
-                _spriteBatch.DrawString(font, "Leaderboard", new Vector2(200, 230), Color.MonoGameOrange);
+                _spriteBatch.DrawString(font, "Leaderboard", new Vector2(100, 210), Color.MonoGameOrange);
 
                 for (int i = 0; i < leaderboard.Count; i++)
                 {
                     var entry = leaderboard[i];
-                    _spriteBatch.DrawString(font, $"{i+1}.{entry.Name}-{entry.Score}", new Vector2(200, 250+i*20), Color.MonoGameOrange);
+                    _spriteBatch.DrawString(font, $"{i+1}.{entry.Name}-{entry.Score}", new Vector2(110, 230+i*20), Color.MonoGameOrange);
                 }
             }
             _spriteBatch.DrawString(font, "After Entering Your Name Press R To Restart", new Vector2(15, 15), Color.MonoGameOrange);
