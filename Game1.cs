@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.DirectoryServices.ActiveDirectory;
 using System.IO;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -31,6 +32,7 @@ public class Game1 : Game
     private string leaderboardFile = "leaderboard.txt";
     private string pName = "";
     private bool enterName = false;
+   
 
 
     public Game1()
@@ -77,11 +79,45 @@ public class Game1 : Game
                 else{
                     gameField.Place(newBlock);
                     int lines = Clear();
-                    switch(lines){
-                        case 1: score += 100; break;
-                        case 2: score += 200; break;
-                        case 3: score += 300; break;
-                        case 4: score += 500; break;
+                    if(totalLines/4==0){
+                        switch(lines){
+                            case 1: score += 40; break;
+                            case 2: score += 100; break;
+                            case 3: score += 300; break;
+                            case 4: score += 1200; break;
+                        }
+                    }
+                    if(totalLines/4==1){
+                        switch(lines){
+                            case 1: score += 60; break;
+                            case 2: score += 150; break;
+                            case 3: score += 500; break;
+                            case 4: score += 1800; break;
+                        }
+                    }
+                    if(totalLines/4==2){
+                        switch(lines){
+                            case 1: score += 80; break;
+                            case 2: score += 200; break;
+                            case 3: score += 600; break;
+                            case 4: score += 2100; break;
+                        }
+                    }
+                    if(totalLines/4==3){
+                        switch(lines){
+                            case 1: score += 100; break;
+                            case 2: score += 250; break;
+                            case 3: score += 750; break;
+                            case 4: score += 2400; break;
+                        }
+                    }
+                    if(totalLines/4==4){
+                        switch(lines){
+                            case 1: score += 120; break;
+                            case 2: score += 300; break;
+                            case 3: score += 900; break;
+                            case 4: score += 2800; break;
+                        }
                     }
                     canSave = true;
                     if(gameField.CheckCollision(newBlock, 3, 0)){
@@ -124,7 +160,7 @@ public class Game1 : Game
                     else if(key == Keys.Back&&pName.Length>0){
                         pName=pName.Substring(0, pName.Length-1);
                     }
-                    else if(key == Keys.Enter&&pName.Length>3){
+                    else if(key == Keys.Enter&&pName.Length>=3){
                         LoadLeaderboard();
                         leaderboard.Add(new ScoreEntry(pName, score));
                         leaderboard = leaderboard.OrderByDescending(s=>s.Score).Take(10).ToList();
@@ -199,12 +235,12 @@ public class Game1 : Game
                 _spriteBatch.DrawString(font, "Enter Name(Minimum 3-letters): "+ pName, new Vector2(100, 230), Color.Black);
             }
             else{
-                _spriteBatch.DrawString(font, "Leaderboard", new Vector2(100, 210), Color.MonoGameOrange);
+                _spriteBatch.DrawString(font, "Leaderboard", new Vector2(100, 200), Color.MonoGameOrange);
 
                 for (int i = 0; i < leaderboard.Count; i++)
                 {
                     var entry = leaderboard[i];
-                    _spriteBatch.DrawString(font, $"{i+1}.{entry.Name}-{entry.Score}", new Vector2(110, 230+i*20), Color.MonoGameOrange);
+                    _spriteBatch.DrawString(font, $"{i+1}.{entry.Name}-{entry.Score}", new Vector2(110, 225+i*25), Color.MonoGameOrange);
                 }
             }
             _spriteBatch.DrawString(font, "After Entering Your Name Press R To Restart", new Vector2(15, 15), Color.MonoGameOrange);
