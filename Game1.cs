@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.DirectoryServices.ActiveDirectory;
 using System.IO;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using SharpDX.Direct3D9;
+using Microsoft.Xna.Framework.Media;
 
 namespace Tetris;
 
@@ -32,6 +32,10 @@ public class Game1 : Game
     private string leaderboardFile = "leaderboard.txt";
     private string pName = "";
     private bool enterName = false;
+    Song song;
+    SoundEffect kaching;
+    Song lebron;
+    SoundEffect taco;
    
 
 
@@ -57,6 +61,11 @@ public class Game1 : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         pixel = Content.Load<Texture2D>("pixel");
         font = Content.Load<SpriteFont>("spritefont");
+        song = Content.Load<Song>("original-tetris-theme-tetris-soundtrack-made-with-Voicemod");
+        kaching = Content.Load<SoundEffect>("ka-ching");
+        taco = Content.Load<SoundEffect>("Voicy_Taco tuesday!!!");
+        lebron = Content.Load<Song>("you-are-my-sunshine-lebron-james");
+        MediaPlayer.Play(song);
         //pixel.SetData(new Color[]{Color.White});
         Spawn();
 
@@ -71,6 +80,9 @@ public class Game1 : Game
         // TODO: Add your update logic here
         newKState = Keyboard.GetState();
         fallTime += gameTime.ElapsedGameTime.TotalSeconds;
+        if(MediaPlayer.State==MediaState.Stopped){
+            MediaPlayer.Play(song);
+        }
         if(!gameOver){
             if (fallTime>=fallSpeed){
                 if(!gameField.CheckCollision(newBlock, newBlock.X, newBlock.Y+1)){
@@ -81,42 +93,42 @@ public class Game1 : Game
                     int lines = Clear();
                     if(totalLines/4==0){
                         switch(lines){
-                            case 1: score += 40; break;
-                            case 2: score += 100; break;
-                            case 3: score += 300; break;
-                            case 4: score += 1200; break;
+                            case 1: score += 40; kaching.Play(); break;
+                            case 2: score += 100; kaching.Play(); break;
+                            case 3: score += 300; kaching.Play(); break;
+                            case 4: score += 1200; taco.Play(); break;
                         }
                     }
                     if(totalLines/4==1){
                         switch(lines){
-                            case 1: score += 60; break;
-                            case 2: score += 150; break;
-                            case 3: score += 500; break;
-                            case 4: score += 1800; break;
+                            case 1: score += 60; kaching.Play(); break;
+                            case 2: score += 150; kaching.Play(); break;
+                            case 3: score += 500; kaching.Play(); break;
+                            case 4: score += 1800; taco.Play(); break;
                         }
                     }
                     if(totalLines/4==2){
                         switch(lines){
-                            case 1: score += 80; break;
-                            case 2: score += 200; break;
-                            case 3: score += 600; break;
-                            case 4: score += 2100; break;
+                            case 1: score += 80; kaching.Play(); break;
+                            case 2: score += 200; kaching.Play(); break;
+                            case 3: score += 600; kaching.Play(); break;
+                            case 4: score += 2100; taco.Play(); break;
                         }
                     }
                     if(totalLines/4==3){
                         switch(lines){
-                            case 1: score += 100; break;
-                            case 2: score += 250; break;
-                            case 3: score += 750; break;
-                            case 4: score += 2400; break;
+                            case 1: score += 100; kaching.Play(); break;
+                            case 2: score += 250; kaching.Play(); break;
+                            case 3: score += 750; kaching.Play(); break;
+                            case 4: score += 2400; taco.Play(); break;
                         }
                     }
                     if(totalLines/4==4){
                         switch(lines){
-                            case 1: score += 120; break;
-                            case 2: score += 300; break;
-                            case 3: score += 900; break;
-                            case 4: score += 2800; break;
+                            case 1: score += 120; kaching.Play(); break;
+                            case 2: score += 300; kaching.Play(); break;
+                            case 3: score += 900; kaching.Play(); break;
+                            case 4: score += 2800; taco.Play(); break;
                         }
                     }
                     canSave = true;
@@ -124,6 +136,8 @@ public class Game1 : Game
                         gameOver = true;
                         enterName = true;
                         pName = "";
+                        MediaPlayer.Stop();
+                        MediaPlayer.Play(lebron);
                         return;
                     }
                     else{

@@ -13,6 +13,18 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin ka-ching.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ka-ching.mp3
+
+#begin original-tetris-theme-tetris-soundtrack-made-with-Voicemod.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:original-tetris-theme-tetris-soundtrack-made-with-Voicemod.mp3
+
 #begin pixel.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -31,4 +43,16 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:spritefont.spritefont
+
+#begin Voicy_Taco tuesday!!!.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Voicy_Taco tuesday!!!.mp3
+
+#begin you-are-my-sunshine-lebron-james.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:you-are-my-sunshine-lebron-james.mp3
 

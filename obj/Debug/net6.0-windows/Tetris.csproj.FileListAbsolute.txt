@@ -118,3 +118,10 @@ C:\Users\Liridon\Documents\GitHub\Tetris\obj\Debug\net6.0-windows\refint\Tetris.
 C:\Users\Liridon\Documents\GitHub\Tetris\obj\Debug\net6.0-windows\Tetris.pdb
 C:\Users\Liridon\Documents\GitHub\Tetris\obj\Debug\net6.0-windows\Tetris.genruntimeconfig.cache
 C:\Users\Liridon\Documents\GitHub\Tetris\obj\Debug\net6.0-windows\ref\Tetris.dll
+c:\Users\Admin\Documents\GitHub\Tetris\bin\Debug\net6.0-windows\Content\original-tetris-theme-tetris-soundtrack-made-with-Voicemod.wma
+c:\Users\Admin\Documents\GitHub\Tetris\bin\Debug\net6.0-windows\Content\original-tetris-theme-tetris-soundtrack-made-with-Voicemod.xnb
+c:\Users\Admin\Documents\GitHub\Tetris\bin\Debug\net6.0-windows\Content\ka-ching.wma
+c:\Users\Admin\Documents\GitHub\Tetris\bin\Debug\net6.0-windows\Content\ka-ching.xnb
+c:\Users\Admin\Documents\GitHub\Tetris\bin\Debug\net6.0-windows\Content\Voicy_Taco tuesday!!!.xnb
+c:\Users\Admin\Documents\GitHub\Tetris\bin\Debug\net6.0-windows\Content\you-are-my-sunshine-lebron-james.wma
+c:\Users\Admin\Documents\GitHub\Tetris\bin\Debug\net6.0-windows\Content\you-are-my-sunshine-lebron-james.xnb
