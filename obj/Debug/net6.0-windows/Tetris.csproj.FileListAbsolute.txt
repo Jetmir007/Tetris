@@ -125,3 +125,10 @@ c:\Users\Admin\Documents\GitHub\Tetris\bin\Debug\net6.0-windows\Content\ka-ching
 c:\Users\Admin\Documents\GitHub\Tetris\bin\Debug\net6.0-windows\Content\Voicy_Taco tuesday!!!.xnb
 c:\Users\Admin\Documents\GitHub\Tetris\bin\Debug\net6.0-windows\Content\you-are-my-sunshine-lebron-james.wma
 c:\Users\Admin\Documents\GitHub\Tetris\bin\Debug\net6.0-windows\Content\you-are-my-sunshine-lebron-james.xnb
+C:\Github\Tetris\bin\Debug\net6.0-windows\Content\ka-ching.wma
+C:\Github\Tetris\bin\Debug\net6.0-windows\Content\ka-ching.xnb
+C:\Github\Tetris\bin\Debug\net6.0-windows\Content\original-tetris-theme-tetris-soundtrack-made-with-Voicemod.wma
+C:\Github\Tetris\bin\Debug\net6.0-windows\Content\original-tetris-theme-tetris-soundtrack-made-with-Voicemod.xnb
+C:\Github\Tetris\bin\Debug\net6.0-windows\Content\Voicy_Taco tuesday!!!.xnb
+C:\Github\Tetris\bin\Debug\net6.0-windows\Content\you-are-my-sunshine-lebron-james.wma
+C:\Github\Tetris\bin\Debug\net6.0-windows\Content\you-are-my-sunshine-lebron-james.xnb

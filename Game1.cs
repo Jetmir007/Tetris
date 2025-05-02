@@ -298,8 +298,17 @@ public class Game1 : Game
         else if(totalLines>12&&totalLines<=16){
             fallSpeed = 0.2;
         }
-        else if(totalLines>16){
+        else if(totalLines>16&&totalLines<=20){
             fallSpeed = 0.15;
+        }
+        else if(totalLines>20&&totalLines<=24){
+            fallSpeed = 0.1;
+        }
+        else if(totalLines>24&&totalLines<=28){
+            fallSpeed = 0.08;
+        }
+        else if(totalLines>28){
+            fallSpeed = 0.06;
         }
 
         if(newKState.IsKeyDown(Keys.W)&&oldKstate.IsKeyUp(Keys.W)){
