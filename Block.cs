@@ -13,6 +13,7 @@ namespace Tetris
         public int X{get; set;} = 3;
         public int Y{get; set;} = 0;
         public BlockType Type { get; set; }
+        Color color;
 
         public bool[,] BlockShape(BlockType blockType)
         {
@@ -102,15 +103,13 @@ namespace Tetris
             return new Block(texture2D, this.Type);
         }
 
-
-
         public void Draw(SpriteBatch spriteBatch){
             for (int i = 0; i < tiles.GetLength(0); i++)
             {
                 for (int j = 0; j < tiles.GetLength(1); j++)
                 {
                     if(tiles[i, j] == true){
-                        spriteBatch.Draw(texture, new Rectangle(X*20 + 200 + 20*j, Y*20+ 20*i, 20, 20), Color.Aquamarine);
+                        spriteBatch.Draw(texture, new Rectangle(X*20 + 200 + 20*j, Y*20+ 20*i, 20, 20), color);
                     }
                 }
             }
