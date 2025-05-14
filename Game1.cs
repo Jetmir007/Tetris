@@ -160,13 +160,6 @@ public class Game1 : Game
                         }
                     }
                 }
-                for (int i = 0; i < saveBlock.tiles.GetLength(0); i++)
-                {
-                    for (int j = 0; j < saveBlock.tiles.GetLength(1); j++)
-                    {
-                        saveBlock.tiles[i, j] = false;
-                    }
-                }
                 gameOver = false;
                 score = 0;
                 totalLines = 0;
