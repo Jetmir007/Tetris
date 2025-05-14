@@ -160,6 +160,13 @@ public class Game1 : Game
                         }
                     }
                 }
+                for (int i = 0; i < saveBlock.tiles.GetLength(0); i++)
+                {
+                    for (int j = 0; j < saveBlock.tiles.GetLength(1); j++)
+                    {
+                        saveBlock.tiles[i, j] = false;
+                    }
+                }
                 gameOver = false;
                 score = 0;
                 totalLines = 0;
@@ -195,52 +202,52 @@ public class Game1 : Game
         _spriteBatch.Begin();
         if(!gameOver){
             _spriteBatch.Draw(pixel, new Rectangle(0, 0, 200, 480), Color.MediumPurple);
-        _spriteBatch.Draw(pixel, new Rectangle(400, 0, 200, 480), Color.MediumPurple);
-        newBlock.Draw(_spriteBatch);
-        for (int i = 1; i < 10; i++){
-            _spriteBatch.Draw(pixel, new Rectangle(20*i+200, 0, 1, 480), Color.Black);
-        }
-        for (int j = 1; j < 24; j++)
-        {
-            _spriteBatch.Draw(pixel, new Rectangle(200, 20*j, 200, 1), Color.Black);
-        }
-        for (int i = 0; i < 24; i++)
-        {
-            for (int j = 0; j < 10; j++)
-            {
-                if(gameField.field[i, j]){
-                    _spriteBatch.Draw(pixel, new Rectangle(20*j+200, 20*i, 20, 20), Color.MediumVioletRed);
-                }
+            _spriteBatch.Draw(pixel, new Rectangle(400, 0, 200, 480), Color.MediumPurple);
+            newBlock.Draw(_spriteBatch);
+            for (int i = 1; i < 10; i++){
+                _spriteBatch.Draw(pixel, new Rectangle(20*i+200, 0, 1, 480), Color.Black);
             }
-        }
-        if(saveBlock!=null){
-            for (int i = 0; i < saveBlock.tiles.GetLength(0); i++)
+            for (int j = 1; j < 24; j++)
             {
-                for (int j = 0; j < saveBlock.tiles.GetLength(1); j++)
+                _spriteBatch.Draw(pixel, new Rectangle(200, 20*j, 200, 1), Color.Black);
+            }
+            for (int i = 0; i < 24; i++)
+            {
+                for (int j = 0; j < 10; j++)
                 {
-                    if(saveBlock.tiles[i, j]){
-                        _spriteBatch.Draw(pixel, new Rectangle(60+j*20, 130+i*20, 20, 20), Color.Aquamarine);
+                    if(gameField.field[i, j]){
+                        _spriteBatch.Draw(pixel, new Rectangle(20*j+200, 20*i, 20, 20), Color.MediumVioletRed);
                     }
                 }
             }
-        }
-        if(nextBlock!=null){
-            for (int i = 0; i < nextBlock.tiles.GetLength(0); i++)
-            {
-                for (int j = 0; j < nextBlock.tiles.GetLength(1); j++)
+            if(saveBlock!=null){
+                for (int i = 0; i < saveBlock.tiles.GetLength(0); i++)
                 {
-                    if(nextBlock.tiles[i, j]){
-                        _spriteBatch.Draw(pixel, new Rectangle(460+j*20, 130+i*20, 20, 20), Color.Aquamarine);
+                    for (int j = 0; j < saveBlock.tiles.GetLength(1); j++)
+                    {
+                        if(saveBlock.tiles[i, j]){
+                            _spriteBatch.Draw(pixel, new Rectangle(60+j*20, 130+i*20, 20, 20), Color.Aquamarine);
+                        }
                     }
                 }
             }
-        }
-        _spriteBatch.DrawString(font, "Saved Block:", new Vector2(15, 80), Color.MonoGameOrange);
-        _spriteBatch.DrawString(font, "Next Block", new Vector2(415, 80), Color.MonoGameOrange);
-        _spriteBatch.DrawString(font, "Total Lines: " + Convert.ToString(totalLines), new Vector2(415, 15), Color.MonoGameOrange);
-        _spriteBatch.DrawString(font, "Score: " + Convert.ToString(score), new Vector2(15, 15), Color.MonoGameOrange);
-        _spriteBatch.DrawString(font, "Level: " + Convert.ToString(totalLines/4), new Vector2(15,45), Color.MonoGameOrange);
-        }
+            if(nextBlock!=null){
+                for (int i = 0; i < nextBlock.tiles.GetLength(0); i++)
+                {
+                    for (int j = 0; j < nextBlock.tiles.GetLength(1); j++)
+                    {
+                        if(nextBlock.tiles[i, j]){
+                            _spriteBatch.Draw(pixel, new Rectangle(460+j*20, 130+i*20, 20, 20), Color.Aquamarine);
+                        }
+                    }
+                }
+            }
+            _spriteBatch.DrawString(font, "Saved Block:", new Vector2(15, 80), Color.MonoGameOrange);
+            _spriteBatch.DrawString(font, "Next Block", new Vector2(415, 80), Color.MonoGameOrange);
+            _spriteBatch.DrawString(font, "Total Lines: " + Convert.ToString(totalLines), new Vector2(415, 15), Color.MonoGameOrange);
+            _spriteBatch.DrawString(font, "Score: " + Convert.ToString(score), new Vector2(15, 15), Color.MonoGameOrange);
+            _spriteBatch.DrawString(font, "Level: " + Convert.ToString(totalLines/4), new Vector2(15,45), Color.MonoGameOrange);
+            }
         else{
             _spriteBatch.DrawString(font, "GAME OVER", new Vector2(220, 60), Color.Black);
             _spriteBatch.DrawString(font, "Score:" + Convert.ToString(score), new Vector2(220, 110), Color.Black);
@@ -282,6 +289,8 @@ public class Game1 : Game
             {
                 if(gameField.CheckCollision(newBlock, newBlock.X, newBlock.Y+i)){
                     newBlock.Y+=i-1;
+                    Random rng = new Random();
+                    score += rng.Next(20, 50);
                     break;
                 }
             }
