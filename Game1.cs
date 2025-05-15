@@ -121,9 +121,9 @@ public class Game1 : Game
                             case 2: score += 250; kaching.Play(); break;
                             case 3: score += 750; kaching.Play(); break;
                             case 4: score += 2400; taco.Play(); break;
-                        }
-                    }
-                    if(totalLines/4==4){
+                         }
+                     }
+                    if(totalLines/4>=4){
                         switch(lines){
                             case 1: score += 120; kaching.Play(); break;
                             case 2: score += 300; kaching.Play(); break;
@@ -268,13 +268,13 @@ public class Game1 : Game
 
     private void BlockUpdate(){
         newKState = Keyboard.GetState();
-        if(newKState.IsKeyDown(Keys.A)&&!gameField.CheckCollision(newBlock, newBlock.X-1, newBlock.Y)&&oldKstate.IsKeyUp(Keys.A)){
+        if(newKState.IsKeyDown(Keys.A)&&!gameField.CheckCollision(newBlock, newBlock.X-1, newBlock.Y)&&oldKstate.IsKeyUp(Keys.A)||newKState.IsKeyDown(Keys.Left)&&!gameField.CheckCollision(newBlock, newBlock.X-1, newBlock.Y)&&oldKstate.IsKeyUp(Keys.Left)){
             newBlock.X--;
         }
-        if(newKState.IsKeyDown(Keys.D)&&!gameField.CheckCollision(newBlock, newBlock.X+1, newBlock.Y)&&oldKstate.IsKeyUp(Keys.D)){
+        if(newKState.IsKeyDown(Keys.D)&&!gameField.CheckCollision(newBlock, newBlock.X+1, newBlock.Y)&&oldKstate.IsKeyUp(Keys.D)||newKState.IsKeyDown(Keys.Right)&&!gameField.CheckCollision(newBlock, newBlock.X+1, newBlock.Y)&&oldKstate.IsKeyUp(Keys.Right)){
             newBlock.X++;
         }
-        if(newKState.IsKeyDown(Keys.S)){
+        if(newKState.IsKeyDown(Keys.S)||newKState.IsKeyDown(Keys.Down)){
             fallSpeed = 0.04;
         }
         else if(newKState.IsKeyDown(Keys.Space)&&oldKstate.IsKeyUp(Keys.Space)){
@@ -313,7 +313,7 @@ public class Game1 : Game
             fallSpeed = 0.06;
         }
 
-        if(newKState.IsKeyDown(Keys.W)&&oldKstate.IsKeyUp(Keys.W)){
+        if(newKState.IsKeyDown(Keys.W)&&oldKstate.IsKeyUp(Keys.W)||newKState.IsKeyDown(Keys.Up)&&oldKstate.IsKeyUp(Keys.Up)){
             bool[,] rotatedTiles = newBlock.Rotate();
             if(!gameField.CheckCollisionRotate(rotatedTiles, newBlock.X, newBlock.Y)){
                 newBlock.tiles = rotatedTiles;
