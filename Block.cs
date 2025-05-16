@@ -5,12 +5,12 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Tetris
 {
-    public enum BlockType{O, I, S, Z, L, J, T}
+    public enum BlockType{O, I, S, Z, L, J, T, Q}
     public class Block
     {
         private Texture2D texture;
         public bool[,] tiles;
-        public int X{get; set;} = 3;
+        public int X{get; set;} = 0;
         public int Y{get; set;} = 0;
         public BlockType Type { get; set; }
 
@@ -57,6 +57,11 @@ namespace Tetris
                     {true, true, true},
                     {false, true, false}
                 },
+                BlockType.Q => new bool[,]
+                {
+                    {true, false, true},
+                    {true, true, true}
+                },
                 _ => throw new NotImplementedException()
             };
         }
@@ -69,7 +74,7 @@ namespace Tetris
 
         static public BlockType RandomType(){
         Random rng = new Random();
-        return (BlockType)rng.Next(0, 7);
+        return (BlockType)rng.Next(0, 8);
         }
 
         public bool[,] Rotate(){

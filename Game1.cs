@@ -36,6 +36,7 @@ public class Game1 : Game
     SoundEffect kaching;
     Song lebron;
     SoundEffect taco;
+    private bool pause = false;
    
 
 
@@ -84,47 +85,72 @@ public class Game1 : Game
             MediaPlayer.Play(song);
         }
         if(!gameOver){
-            if (fallTime>=fallSpeed){
-                if(!gameField.CheckCollision(newBlock, newBlock.X, newBlock.Y+1)){
+            if (newKState.IsKeyDown(Keys.Enter) && oldKstate.IsKeyUp(Keys.Enter))
+            {
+                pause = true;
+            }
+            if (pause)
+            {
+                if (newKState.IsKeyDown(Keys.Back) && oldKstate.IsKeyUp(Keys.Back))
+                {
+                    pause = false;
+                }
+                return;
+            }
+            if (fallTime >= fallSpeed)
+            {
+                if (!gameField.CheckCollision(newBlock, newBlock.X, newBlock.Y + 1))
+                {
                     newBlock.Y++;
                 }
-                else{
+                else
+                {
                     gameField.Place(newBlock);
                     int lines = Clear();
-                    if(totalLines/4==0){
-                        switch(lines){
+                    if (totalLines / 4 == 0)
+                    {
+                        switch (lines)
+                        {
                             case 1: score += 40; kaching.Play(); break;
                             case 2: score += 100; kaching.Play(); break;
                             case 3: score += 300; kaching.Play(); break;
                             case 4: score += 1200; taco.Play(); break;
                         }
                     }
-                    if(totalLines/4==1){
-                        switch(lines){
+                    if (totalLines / 4 == 1)
+                    {
+                        switch (lines)
+                        {
                             case 1: score += 60; kaching.Play(); break;
                             case 2: score += 150; kaching.Play(); break;
                             case 3: score += 500; kaching.Play(); break;
                             case 4: score += 1800; taco.Play(); break;
                         }
                     }
-                    if(totalLines/4==2){
-                        switch(lines){
+                    if (totalLines / 4 == 2)
+                    {
+                        switch (lines)
+                        {
                             case 1: score += 80; kaching.Play(); break;
                             case 2: score += 200; kaching.Play(); break;
                             case 3: score += 600; kaching.Play(); break;
                             case 4: score += 2100; taco.Play(); break;
                         }
                     }
-                    if(totalLines/4==3){
-                        switch(lines){
+                    if (totalLines / 4 == 3)
+                    {
+                        switch (lines)
+                        {
                             case 1: score += 100; kaching.Play(); break;
                             case 2: score += 250; kaching.Play(); break;
                             case 3: score += 750; kaching.Play(); break;
                             case 4: score += 2400; taco.Play(); break;
-                         }
-                     }
-                    if(totalLines/4>=4){
-                        switch(lines){
+                        }
+                    }
+                    if (totalLines / 4 >= 4)
+                    {
+                        switch (lines)
+                        {
                             case 1: score += 120; kaching.Play(); break;
                             case 2: score += 300; kaching.Play(); break;
                             case 3: score += 900; kaching.Play(); break;
@@ -132,7 +158,8 @@ public class Game1 : Game
                         }
                     }
                     canSave = true;
-                    if(gameField.CheckCollision(newBlock, 3, 0)){
+                    if (gameField.CheckCollision(newBlock, 3, 0))
+                    {
                         gameOver = true;
                         enterName = true;
                         pName = "";
@@ -140,11 +167,12 @@ public class Game1 : Game
                         MediaPlayer.Play(lebron);
                         return;
                     }
-                    else{
+                    else
+                    {
                         Spawn();
                     }
                 }
-            fallTime = 0;
+                fallTime = 0;
             }
             Save();
             BlockUpdate();
@@ -194,8 +222,8 @@ public class Game1 : Game
         GraphicsDevice.Clear(Color.CornflowerBlue);
         _spriteBatch.Begin();
         if(!gameOver){
-            _spriteBatch.Draw(pixel, new Rectangle(0, 0, 200, 480), Color.MediumPurple);
-            _spriteBatch.Draw(pixel, new Rectangle(400, 0, 200, 480), Color.MediumPurple);
+            _spriteBatch.Draw(pixel, new Rectangle(0, 0, 200, 480), Color.MediumSlateBlue);
+            _spriteBatch.Draw(pixel, new Rectangle(400, 0, 200, 480), Color.MediumSlateBlue);
             newBlock.Draw(_spriteBatch);
             for (int i = 1; i < 10; i++){
                 _spriteBatch.Draw(pixel, new Rectangle(20*i+200, 0, 1, 480), Color.Black);
@@ -259,6 +287,19 @@ public class Game1 : Game
             }
             _spriteBatch.DrawString(font, "After Entering Your Name Press R To Restart", new Vector2(15, 15), Color.MonoGameOrange);
         }
+        if (pause)
+        {
+            _spriteBatch.Draw(pixel, new Rectangle(0, 0, 600, 480), Color.MediumSlateBlue);
+            _spriteBatch.DrawString(font, "Press Backspace", new Vector2(200, 60), Color.Black);
+            LoadLeaderboard();
+            for (int i = 0; i < leaderboard.Count; i++)
+            {
+                var entry = leaderboard[i];
+                _spriteBatch.DrawString(font, $"{i + 1}.{entry.Name}-{entry.Score}", new Vector2(110, 225 + i * 25), Color.MonoGameOrange);
+            }
+            _spriteBatch.DrawString(font, "Score:" + Convert.ToString(score), new Vector2(220, 110), Color.Black);
+            _spriteBatch.DrawString(font, "Rows Cleared:" + Convert.ToString(totalLines), new Vector2(220, 160), Color.Black);
+        }
         _spriteBatch.End();
 
         // TODO: Add your drawing code here
@@ -268,10 +309,10 @@ public class Game1 : Game
 
     private void BlockUpdate(){
         newKState = Keyboard.GetState();
-        if(newKState.IsKeyDown(Keys.A)&&!gameField.CheckCollision(newBlock, newBlock.X-1, newBlock.Y)&&oldKstate.IsKeyUp(Keys.A)||newKState.IsKeyDown(Keys.Left)&&!gameField.CheckCollision(newBlock, newBlock.X-1, newBlock.Y)&&oldKstate.IsKeyUp(Keys.Left)){
+        if(newKState.IsKeyDown(Keys.A)&&!gameField.CheckCollision(newBlock, newBlock.X-1, newBlock.Y)&&oldKstate.IsKeyUp(Keys.A)||newKState.IsKeyDown(Keys.Left)&&!gameField.CheckCollision(newBlock, newBlock.X-1, newBlock.Y)){
             newBlock.X--;
         }
-        if(newKState.IsKeyDown(Keys.D)&&!gameField.CheckCollision(newBlock, newBlock.X+1, newBlock.Y)&&oldKstate.IsKeyUp(Keys.D)||newKState.IsKeyDown(Keys.Right)&&!gameField.CheckCollision(newBlock, newBlock.X+1, newBlock.Y)&&oldKstate.IsKeyUp(Keys.Right)){
+        if(newKState.IsKeyDown(Keys.D)&&!gameField.CheckCollision(newBlock, newBlock.X+1, newBlock.Y)&&oldKstate.IsKeyUp(Keys.D)||newKState.IsKeyDown(Keys.Right)&&!gameField.CheckCollision(newBlock, newBlock.X+1, newBlock.Y)){
             newBlock.X++;
         }
         if (newKState.IsKeyDown(Keys.S) || newKState.IsKeyDown(Keys.Down))
@@ -346,7 +387,7 @@ public class Game1 : Game
         }
         else{
             newBlock = nextBlock;
-            newBlock.X = 3;
+            newBlock.X = 4;
             newBlock.Y = 0;
 
             nextBlock = new Block(pixel, Block.RandomType());
@@ -366,7 +407,6 @@ public class Game1 : Game
                     break;
                 }                
             }
-
             if(full){
                 clears++;
                 for (int x = 0; x < gameField.cols; x++){
