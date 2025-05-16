@@ -69,7 +69,7 @@ namespace Tetris
 
         static public BlockType RandomType(){
         Random rng = new Random();
-        return (BlockType)rng.Next(0,7);
+        return (BlockType)rng.Next(0, 7);
         }
 
         public bool[,] Rotate(){

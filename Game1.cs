@@ -274,48 +274,65 @@ public class Game1 : Game
         if(newKState.IsKeyDown(Keys.D)&&!gameField.CheckCollision(newBlock, newBlock.X+1, newBlock.Y)&&oldKstate.IsKeyUp(Keys.D)||newKState.IsKeyDown(Keys.Right)&&!gameField.CheckCollision(newBlock, newBlock.X+1, newBlock.Y)&&oldKstate.IsKeyUp(Keys.Right)){
             newBlock.X++;
         }
-        if(newKState.IsKeyDown(Keys.S)||newKState.IsKeyDown(Keys.Down)){
+        if (newKState.IsKeyDown(Keys.S) || newKState.IsKeyDown(Keys.Down))
+        {
             fallSpeed = 0.04;
         }
-        else if(newKState.IsKeyDown(Keys.Space)&&oldKstate.IsKeyUp(Keys.Space)){
-            for (int i = 0; i < gameField.rows-1; i++)
+        else if (newKState.IsKeyDown(Keys.Space) && oldKstate.IsKeyUp(Keys.Space))
+        {
+            for (int i = 0; i < gameField.rows - 1; i++)
             {
-                if(gameField.CheckCollision(newBlock, newBlock.X, newBlock.Y+i)){
-                    newBlock.Y+=i-1;
+                if (gameField.CheckCollision(newBlock, newBlock.X, newBlock.Y + i))
+                {
+                    newBlock.Y += i - 1;
                     Random rng = new Random();
                     score += rng.Next(20, 50);
                     break;
                 }
             }
         }
-        else if(totalLines<=4){
+        else if (totalLines <= 4)
+        {
             fallSpeed = 0.5;
         }
-        else if(totalLines>4&&totalLines<=8){
+        else if (totalLines > 4 && totalLines <= 8)
+        {
             fallSpeed = 0.35;
         }
-        else if(totalLines>8&&totalLines<=12){
+        else if (totalLines > 8 && totalLines <= 12)
+        {
             fallSpeed = 0.25;
         }
-        else if(totalLines>12&&totalLines<=16){
+        else if (totalLines > 12 && totalLines <= 16)
+        {
             fallSpeed = 0.2;
         }
-        else if(totalLines>16&&totalLines<=20){
+        else if (totalLines > 16 && totalLines <= 20)
+        {
             fallSpeed = 0.15;
         }
-        else if(totalLines>20&&totalLines<=24){
+        else if (totalLines > 20 && totalLines <= 24)
+        {
             fallSpeed = 0.1;
         }
-        else if(totalLines>24&&totalLines<=28){
+        else if (totalLines > 24 && totalLines <= 28)
+        {
             fallSpeed = 0.08;
         }
-        else if(totalLines>28){
+        else if (totalLines > 28 && totalLines <= 32)
+        {
             fallSpeed = 0.06;
         }
+        else if (totalLines > 32)
+        {
+            fallSpeed = 0.04;
+        }
 
-        if(newKState.IsKeyDown(Keys.W)&&oldKstate.IsKeyUp(Keys.W)||newKState.IsKeyDown(Keys.Up)&&oldKstate.IsKeyUp(Keys.Up)){
+        if (newKState.IsKeyDown(Keys.W) && oldKstate.IsKeyUp(Keys.W) || newKState.IsKeyDown(Keys.Up) && oldKstate.IsKeyUp(Keys.Up))
+        {
             bool[,] rotatedTiles = newBlock.Rotate();
-            if(!gameField.CheckCollisionRotate(rotatedTiles, newBlock.X, newBlock.Y)){
+            if (!gameField.CheckCollisionRotate(rotatedTiles, newBlock.X, newBlock.Y))
+            {
                 newBlock.tiles = rotatedTiles;
             }
         }
