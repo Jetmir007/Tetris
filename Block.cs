@@ -10,7 +10,7 @@ namespace Tetris
     {
         private Texture2D texture;
         public bool[,] tiles;
-        public int X{get; set;} = 0;
+        public int X{get; set;} = 4;
         public int Y{get; set;} = 0;
         public BlockType Type { get; set; }
 
