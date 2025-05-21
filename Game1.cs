@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using SharpDX.Direct2D1.Effects;
 
 namespace Tetris;
 
@@ -37,6 +38,8 @@ public class Game1 : Game
     Song lebron;
     SoundEffect taco;
     private bool pause = false;
+    private Block buyBlock;
+    private double price;
    
 
 
@@ -66,6 +69,7 @@ public class Game1 : Game
         kaching = Content.Load<SoundEffect>("ka-ching");
         taco = Content.Load<SoundEffect>("Voicy_Taco tuesday!!!");
         lebron = Content.Load<Song>("you-are-my-sunshine-lebron-james");
+        buyBlock = new Block(pixel, BlockType.I);
         MediaPlayer.Play(song);
         //pixel.SetData(new Color[]{Color.White});
         Spawn();
@@ -221,44 +225,51 @@ public class Game1 : Game
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
         _spriteBatch.Begin();
-        if(!gameOver){
+        if (!gameOver)
+        {
             _spriteBatch.Draw(pixel, new Rectangle(0, 0, 200, 480), Color.MediumSlateBlue);
             _spriteBatch.Draw(pixel, new Rectangle(400, 0, 200, 480), Color.MediumSlateBlue);
             newBlock.Draw(_spriteBatch);
-            for (int i = 1; i < 10; i++){
-                _spriteBatch.Draw(pixel, new Rectangle(20*i+200, 0, 1, 480), Color.Black);
+            for (int i = 1; i < 10; i++)
+            {
+                _spriteBatch.Draw(pixel, new Rectangle(20 * i + 200, 0, 1, 480), Color.Black);
             }
             for (int j = 1; j < 24; j++)
             {
-                _spriteBatch.Draw(pixel, new Rectangle(200, 20*j, 200, 1), Color.Black);
+                _spriteBatch.Draw(pixel, new Rectangle(200, 20 * j, 200, 1), Color.Black);
             }
             for (int i = 0; i < 24; i++)
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    if(gameField.field[i, j]){
-                        _spriteBatch.Draw(pixel, new Rectangle(20*j+200, 20*i, 20, 20), Color.MediumVioletRed);
+                    if (gameField.field[i, j])
+                    {
+                        _spriteBatch.Draw(pixel, new Rectangle(20 * j + 200, 20 * i, 20, 20), Color.MediumVioletRed);
                     }
                 }
             }
-            if(saveBlock!=null){
+            if (saveBlock != null)
+            {
                 for (int i = 0; i < saveBlock.tiles.GetLength(0); i++)
                 {
                     for (int j = 0; j < saveBlock.tiles.GetLength(1); j++)
                     {
-                        if(saveBlock.tiles[i, j]){
-                            _spriteBatch.Draw(pixel, new Rectangle(60+j*20, 130+i*20, 20, 20), Color.Aquamarine);
+                        if (saveBlock.tiles[i, j])
+                        {
+                            _spriteBatch.Draw(pixel, new Rectangle(60 + j * 20, 130 + i * 20, 20, 20), Color.Aquamarine);
                         }
                     }
                 }
             }
-            if(nextBlock!=null){
+            if (nextBlock != null)
+            {
                 for (int i = 0; i < nextBlock.tiles.GetLength(0); i++)
                 {
                     for (int j = 0; j < nextBlock.tiles.GetLength(1); j++)
                     {
-                        if(nextBlock.tiles[i, j]){
-                            _spriteBatch.Draw(pixel, new Rectangle(460+j*20, 130+i*20, 20, 20), Color.Aquamarine);
+                        if (nextBlock.tiles[i, j])
+                        {
+                            _spriteBatch.Draw(pixel, new Rectangle(460 + j * 20, 130 + i * 20, 20, 20), Color.Aquamarine);
                         }
                     }
                 }
@@ -267,22 +278,27 @@ public class Game1 : Game
             _spriteBatch.DrawString(font, "Next Block", new Vector2(415, 80), Color.MonoGameOrange);
             _spriteBatch.DrawString(font, "Total Lines: " + Convert.ToString(totalLines), new Vector2(415, 15), Color.MonoGameOrange);
             _spriteBatch.DrawString(font, "Score: " + Convert.ToString(score), new Vector2(15, 15), Color.MonoGameOrange);
-            _spriteBatch.DrawString(font, "Level: " + Convert.ToString(totalLines/4), new Vector2(15,45), Color.MonoGameOrange);
+            _spriteBatch.DrawString(font, "Level: " + Convert.ToString(totalLines / 4), new Vector2(15, 45), Color.MonoGameOrange);
+            _spriteBatch.DrawString(font, "Buy Line-Block", new Vector2(15, 250), Color.MonoGameOrange);
+            _spriteBatch.DrawString(font, "For: " + Convert.ToString(price), new Vector2(15, 280), Color.MonoGameOrange);
             }
-        else{
+        else
+        {
             _spriteBatch.DrawString(font, "GAME OVER", new Vector2(220, 60), Color.Black);
             _spriteBatch.DrawString(font, "Score:" + Convert.ToString(score), new Vector2(220, 110), Color.Black);
             _spriteBatch.DrawString(font, "Rows Cleared:" + Convert.ToString(totalLines), new Vector2(220, 160), Color.Black);
-            if(enterName){
-                _spriteBatch.DrawString(font, "Enter Name(Minimum 3-letters): "+ pName, new Vector2(100, 230), Color.Black);
+            if (enterName)
+            {
+                _spriteBatch.DrawString(font, "Enter Name(Minimum 3-letters): " + pName, new Vector2(100, 230), Color.Black);
             }
-            else{
+            else
+            {
                 _spriteBatch.DrawString(font, "Leaderboard", new Vector2(100, 200), Color.MonoGameOrange);
 
                 for (int i = 0; i < leaderboard.Count; i++)
                 {
                     var entry = leaderboard[i];
-                    _spriteBatch.DrawString(font, $"{i+1}.{entry.Name}-{entry.Score}", new Vector2(110, 225+i*25), Color.MonoGameOrange);
+                    _spriteBatch.DrawString(font, $"{i + 1}.{entry.Name}-{entry.Score}", new Vector2(110, 225 + i * 25), Color.MonoGameOrange);
                 }
             }
             _spriteBatch.DrawString(font, "After Entering Your Name Press R To Restart", new Vector2(15, 15), Color.MonoGameOrange);
@@ -332,7 +348,7 @@ public class Game1 : Game
                 }
             }
         }
-        else if (totalLines <= 4)
+        else if (totalLines <= 4)  
         {
             fallSpeed = 0.5;
         }
@@ -367,6 +383,17 @@ public class Game1 : Game
         else if (totalLines > 32)
         {
             fallSpeed = 0.04;
+        }
+        double level = totalLines / 4;
+        price = 30;
+        if (score >= price)
+        {
+            if (newKState.IsKeyDown(Keys.M) && oldKstate.IsKeyUp(Keys.M))
+            {
+                newBlock = buyBlock;
+                score -= (int)price;
+                buyBlock = new Block(pixel, BlockType.I);
+            }
         }
 
         if (newKState.IsKeyDown(Keys.W) && oldKstate.IsKeyUp(Keys.W) || newKState.IsKeyDown(Keys.Up) && oldKstate.IsKeyUp(Keys.Up))
