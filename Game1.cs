@@ -281,7 +281,7 @@ public class Game1 : Game
             _spriteBatch.DrawString(font, "Level: " + Convert.ToString(totalLines / 4), new Vector2(15, 45), Color.MonoGameOrange);
             _spriteBatch.DrawString(font, "Buy Line-Block", new Vector2(15, 250), Color.MonoGameOrange);
             _spriteBatch.DrawString(font, "For: " + Convert.ToString(price), new Vector2(15, 280), Color.MonoGameOrange);
-            }
+        }
         else
         {
             _spriteBatch.DrawString(font, "GAME OVER", new Vector2(220, 60), Color.Black);
