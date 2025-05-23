@@ -169,6 +169,7 @@ public class Game1 : Game
                         pName = "";
                         MediaPlayer.Stop();
                         MediaPlayer.Play(lebron);
+                        saveBlock = null;
                         return;
                     }
                     else
@@ -274,13 +275,14 @@ public class Game1 : Game
                     }
                 }
             }
-            _spriteBatch.DrawString(font, "Saved Block:", new Vector2(15, 80), Color.MonoGameOrange);
+            _spriteBatch.DrawString(font, "Saved Block (C)", new Vector2(15, 80), Color.MonoGameOrange);
             _spriteBatch.DrawString(font, "Next Block", new Vector2(415, 80), Color.MonoGameOrange);
             _spriteBatch.DrawString(font, "Total Lines: " + Convert.ToString(totalLines), new Vector2(415, 15), Color.MonoGameOrange);
             _spriteBatch.DrawString(font, "Score: " + Convert.ToString(score), new Vector2(15, 15), Color.MonoGameOrange);
             _spriteBatch.DrawString(font, "Level: " + Convert.ToString(totalLines / 4), new Vector2(15, 45), Color.MonoGameOrange);
             _spriteBatch.DrawString(font, "Buy Line-Block", new Vector2(15, 250), Color.MonoGameOrange);
             _spriteBatch.DrawString(font, "For: " + Convert.ToString(price), new Vector2(15, 280), Color.MonoGameOrange);
+            _spriteBatch.DrawString(font, "(Press M)", new Vector2(15, 310), Color.MonoGameOrange);
         }
         else
         {
