@@ -385,7 +385,7 @@ public class Game1 : Game
             fallSpeed = 0.04;
         }
         double level = totalLines / 4;
-        price = 30;
+        price = 1000 + level * 250;
         if (score >= price)
         {
             if (newKState.IsKeyDown(Keys.M) && oldKstate.IsKeyUp(Keys.M))
