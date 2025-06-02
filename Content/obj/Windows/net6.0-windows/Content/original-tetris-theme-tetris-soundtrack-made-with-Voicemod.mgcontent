@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/Github/Tetris/Content/original-tetris-theme-tetris-soundtrack-made-with-Voicemod.mp3</SourceFile>
+  <SourceFile>c:/Github/Tetris/Content/original-tetris-theme-tetris-soundtrack-made-with-Voicemod.mp3</SourceFile>
   <SourceTime>2025-05-02T14:01:40.7579833+02:00</SourceTime>
-  <DestFile>C:/Github/Tetris/Content/bin/Windows/Content/original-tetris-theme-tetris-soundtrack-made-with-Voicemod.xnb</DestFile>
-  <DestTime>2025-05-27T13:42:16.4507989+02:00</DestTime>
+  <DestFile>c:/Github/Tetris/Content/bin/Windows/Content/original-tetris-theme-tetris-soundtrack-made-with-Voicemod.xnb</DestFile>
+  <DestTime>2025-06-02T19:08:58.8710179+02:00</DestTime>
   <Importer>Mp3Importer</Importer>
   <ImporterTime>2022-07-26T13:44:56+02:00</ImporterTime>
   <Processor>SongProcessor</Processor>
@@ -15,6 +15,6 @@
   <Dependencies />
   <BuildAsset />
   <BuildOutput>
-    <string>C:/Github/Tetris/Content/bin/Windows/Content/original-tetris-theme-tetris-soundtrack-made-with-Voicemod.wma</string>
+    <string>c:/Github/Tetris/Content/bin/Windows/Content/original-tetris-theme-tetris-soundtrack-made-with-Voicemod.wma</string>
   </BuildOutput>
 </PipelineBuildEvent>
