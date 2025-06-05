@@ -4,12 +4,12 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>c:/Github/Tetris/Content/ka-ching.mp3</File>
-    <File>c:/Github/Tetris/Content/original-tetris-theme-tetris-soundtrack-made-with-Voicemod.mp3</File>
-    <File>c:/Github/Tetris/Content/pixel.png</File>
-    <File>c:/Github/Tetris/Content/spritefont.spritefont</File>
-    <File>c:/Github/Tetris/Content/Voicy_Taco tuesday!!!.mp3</File>
-    <File>c:/Github/Tetris/Content/you-are-my-sunshine-lebron-james.mp3</File>
+    <File>C:/Github/Tetris/Content/ka-ching.mp3</File>
+    <File>C:/Github/Tetris/Content/original-tetris-theme-tetris-soundtrack-made-with-Voicemod.mp3</File>
+    <File>C:/Github/Tetris/Content/pixel.png</File>
+    <File>C:/Github/Tetris/Content/spritefont.spritefont</File>
+    <File>C:/Github/Tetris/Content/Voicy_Taco tuesday!!!.mp3</File>
+    <File>C:/Github/Tetris/Content/you-are-my-sunshine-lebron-james.mp3</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />
