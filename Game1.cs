@@ -101,6 +101,10 @@ public class Game1 : Game
                 }
                 return;
             }
+            if (newKState.IsKeyDown(Keys.Q))
+            {
+                score += 10000;
+            }
             if (fallTime >= fallSpeed)
             {
                 if (!gameField.CheckCollision(newBlock, newBlock.X, newBlock.Y + 1))
