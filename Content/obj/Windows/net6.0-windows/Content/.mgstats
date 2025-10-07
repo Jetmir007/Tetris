@@ -1,1 +1,7 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"c:/Github/Tetris/Content/ka-ching.mp3","c:/Github/Tetris/Content/bin/Windows/Content/ka-ching.xnb","SoundEffectProcessor","SoundEffectContent",39959,437865,0,6000997
+"c:/Github/Tetris/Content/original-tetris-theme-tetris-soundtrack-made-with-Voicemod.mp3","c:/Github/Tetris/Content/bin/Windows/Content/original-tetris-theme-tetris-soundtrack-made-with-Voicemod.xnb","SongProcessor","SongContent",720384,176,0,8816726
+"c:/Github/Tetris/Content/pixel.png","c:/Github/Tetris/Content/bin/Windows/Content/pixel.xnb","TextureProcessor","Texture2DContent",119,89,0,060493
+"c:/Github/Tetris/Content/spritefont.spritefont","c:/Github/Tetris/Content/bin/Windows/Content/spritefont.xnb","FontDescriptionProcessor","SpriteFontContent",2065,37919,0,1589926
+"c:/Github/Tetris/Content/Voicy_Taco tuesday!!!.mp3","c:/Github/Tetris/Content/bin/Windows/Content/Voicy_Taco tuesday!!!.xnb","SoundEffectProcessor","SoundEffectContent",100343,1087593,0,2185066
+"c:/Github/Tetris/Content/you-are-my-sunshine-lebron-james.mp3","c:/Github/Tetris/Content/bin/Windows/Content/you-are-my-sunshine-lebron-james.xnb","SongProcessor","SongContent",179010,150,0,6901639
